@@ -180,9 +180,7 @@ new Vue({
         }
         let textBox = document.getElementById('textbox');
         p.setup = function() {
-          p.createCanvas(imgWidth, imgHeight, p.WEBGL);
-
-          p.translate(imgWidth / 2 * -1, imgHeight / 2 * -1);
+          p.createCanvas(imgWidth, imgHeight);
 
           p.textFont(font1);
 
@@ -218,7 +216,6 @@ new Vue({
         }
 
         p.draw = function() {
-          p.translate(imgWidth / 2 * -1, imgHeight / 2 * -1);
           p.image(bg, 0, 0, imgWidth, imgHeight);
 
           p.strokeWeight(1)
@@ -250,34 +247,23 @@ new Vue({
               p.mouseY > 0 && p.mouseY < imgHeight
             )
               p.rect(eachBox.left, eachBox.top, eachBox.width, eachBox.height);
+
+
           });
           vueInstanceData.vdMightDrag = mightDrag;
 
           // p.filter(p.BLUR);
           p.textAlign(p.CENTER);
-          p.textSize(42);
+          p.textSize(46);
 
           let topOffset = 11;
           let leftOffset = 4;
-          let positions = [1, 2, 2.5];
+
+          p.stroke(0);
+          p.strokeWeight(6);
+          p.fill(255, 255, 255);
 
           vueInstanceData.vdBoxes.forEach(function(eachBox, i) {
-            p.fill(0, 0, 0);
-
-            positions.forEach(function(eachPos) {
-              p.text(vueInstanceData.vdTexts[i + 1].toUpperCase(), eachBox.left + leftOffset - eachPos, eachBox.top + topOffset - eachPos, eachBox.width, eachBox.height);
-              p.text(vueInstanceData.vdTexts[i + 1].toUpperCase(), eachBox.left + leftOffset, eachBox.top + topOffset - eachPos, eachBox.width, eachBox.height);
-              p.text(vueInstanceData.vdTexts[i + 1].toUpperCase(), eachBox.left + leftOffset + eachPos, eachBox.top + topOffset - eachPos, eachBox.width, eachBox.height);
-
-              p.text(vueInstanceData.vdTexts[i + 1].toUpperCase(), eachBox.left + leftOffset - eachPos, eachBox.top + topOffset, eachBox.width, eachBox.height);
-              p.text(vueInstanceData.vdTexts[i + 1].toUpperCase(), eachBox.left + leftOffset + eachPos, eachBox.top + topOffset, eachBox.width, eachBox.height);
-
-              p.text(vueInstanceData.vdTexts[i + 1].toUpperCase(), eachBox.left + leftOffset - eachPos, eachBox.top + topOffset + eachPos, eachBox.width, eachBox.height);
-              p.text(vueInstanceData.vdTexts[i + 1].toUpperCase(), eachBox.left + leftOffset, eachBox.top + topOffset + eachPos, eachBox.width, eachBox.height);
-              p.text(vueInstanceData.vdTexts[i + 1].toUpperCase(), eachBox.left + leftOffset + eachPos, eachBox.top + topOffset + eachPos, eachBox.width, eachBox.height);
-            });
-
-            p.fill(255, 255, 255);
             p.text(vueInstanceData.vdTexts[i + 1].toUpperCase(), eachBox.left + leftOffset, eachBox.top + topOffset, eachBox.width, eachBox.height);
           });
         }
