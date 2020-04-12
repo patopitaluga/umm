@@ -5,8 +5,10 @@ body {
 }
 
 .webapp-cont {
-  max-width: 600px;
+  box-sizing: border-box;
   margin: 0 auto;
+  max-width: 600px;
+  padding: 0 15px;
 }
 
 input[type='text'],

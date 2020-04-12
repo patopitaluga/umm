@@ -13,7 +13,7 @@
       </div>
       <a
         class="search__suggestion__link"
-        :href="'/memes/' + eachMemeFound.img"
+        :href="'memes/' + eachMemeFound.img"
         download
         @click.prevent="$emit('memeclicked', eachMemeFound)"
       >

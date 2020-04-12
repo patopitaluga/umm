@@ -66,7 +66,19 @@ new Vue({
         window.localStorage.setItem('memesd2_frequent', JSON.stringify(arFrequent));
       }
       this.vdFrequent = arFrequent;
-      window.location.href = '/download/' + meme.img;
+      // window.location.href = '/download/' + meme.img;
+
+      var file_path = 'memes/' + meme.img;
+      var a = document.createElement('A');
+      a.href = file_path;
+      a.style.display = 'block';
+      a.style.overflow = 'hidden';
+      a.style.width = '0';
+      a.style.height = '0';
+      a.download = file_path.substr(file_path.lastIndexOf('/') + 1);
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     }
   },
 });
