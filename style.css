@@ -42,3 +42,11 @@ h2 {
   margin: 0 auto;
   padding: 7px 12px;
 }
+
+.btn:focus {
+  outline: 0;
+}
+
+a {
+  color: #000;
+}
