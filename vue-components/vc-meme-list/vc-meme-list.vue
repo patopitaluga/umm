@@ -5,7 +5,7 @@
       v-for="(eachMemeFound, i) in vpMemeList"
       :key="i"
     >
-      <img :src="'/memes/' + eachMemeFound.img"/>
+      <img :src="'memes/' + eachMemeFound.img"/>
       <div
         class="search__suggestion__title"
         v-html="eachMemeFound.name"

@@ -12,7 +12,7 @@ export default {
      * @param {string} img -
      */
     mtdEditSelected: function(img) {
-      window.location.href = '/edit/' + img;
+      window.location.href = '/edit.html?i=' + img;
     },
   },
 };

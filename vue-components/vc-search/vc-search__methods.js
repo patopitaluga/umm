@@ -21,8 +21,8 @@ const slugify = function(str) {
   return str;
 };
 
-String.prototype.showMatching = function(strReplace, strWith) {
-  var esc = strReplace.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+String.prototype.showMatching = function(_term) {
+  var esc = _term.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
   var reg = new RegExp(esc, 'ig');
 
   var strWithMatch = this;
@@ -31,7 +31,7 @@ String.prototype.showMatching = function(strReplace, strWith) {
       strWithMatch.slice(0, match.index), '<span>', strWithMatch.slice(match.index)
     ].join('');
     strWithMatch = [
-      strWithMatch.slice(0, match.index + strWith.length), '</span>', strWithMatch.slice(match.index + strWith.length)
+      strWithMatch.slice(0, match.index + '<span>'.length + _term.length), '</span>', strWithMatch.slice(match.index + '<span>'.length + _term.length)
     ].join('');
   }
   return strWithMatch;
@@ -70,8 +70,7 @@ module.exports = {
         ) {
           matches.push({
             img: eachMeme.img,
-            name: eachMeme.name.showMatching(vueInstanceData.vdInputSuggestionTerm, '<span>' + vueInstanceData.vdInputSuggestionTerm + '</span>')
-            // showMatching(eachMeme.name, vueInstanceData.vdInputSuggestionTerm, '<span>' + vueInstanceData.vdInputSuggestionTerm + '</span>')
+            name: eachMeme.name.showMatching(vueInstanceData.vdInputSuggestionTerm)
           });
         }
       });

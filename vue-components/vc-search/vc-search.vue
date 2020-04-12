@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="padding: 5px; background: #eee;">
     <form autocomplete="off">
       <input
         class="search__input"
@@ -14,7 +14,7 @@
     </form>
     <memelist
       v-if="vdInputSuggestionTerm !== ''"
-      :vp-meme-list="vpMemeList"
+      :vp-meme-list="vdMatchingMemes"
       @memeclicked="mtdMemeClicked"
     >
     </memelist>
