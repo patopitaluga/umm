@@ -49,7 +49,7 @@
     ;*/
     border: 1px dashed #666;
     font-family: 'Anton', sans-serif;
-    font-size: 39px;
+    font-size: 40px;
     position: absolute;
     left: 0;
     letter-spacing: 2px;
@@ -68,7 +68,7 @@
 <body>
 <div id="app">
   <div class="webapp-cont">
-    <a href="/">Back</a>
+    <a href="./">Back</a>
     <h1>Ultimate Meme Manager</h1>
     <h2>Add text</h2>
     <div id="container">
@@ -104,7 +104,7 @@
     return result;
   };
 
-  let feImagePath = '/memes/' + $_GET('i');
+  let feImagePath = 'memes/' + $_GET('i');
 
   let img = document.getElementById('img');
   img.onload = function() {
@@ -158,8 +158,14 @@
         p.translate(imgWidth / 2 * -1, imgHeight / 2 * -1);
         p.image(bg, 0, 0, imgWidth, imgHeight);
         if (dragging) {
-          inp.elt.style.left = (p.mouseX - draggingOffsetX) + 'px';
-          inp.elt.style.top = (p.mouseY - draggingOffsetY) + 'px';
+          var leftPos = (p.mouseX - draggingOffsetX);
+          if (leftPos < 0) leftPos = 0;
+          if (leftPos > imgWidth - inp.width) leftPos = imgWidth - inp.width;
+          inp.elt.style.left = leftPos + 'px';
+          var topPos = (p.mouseY - draggingOffsetY);
+          if (topPos < 0) topPos = 0;
+          if (topPos > imgHeight - inp.height) topPos = imgHeight - inp.height;
+          inp.elt.style.top = topPos + 'px';
         }
 
         // p.filter(p.BLUR);
@@ -188,7 +194,8 @@
       }
 
       document.getElementById('download-button').onclick = function() {
-        p.saveCanvas(feImagePath);
+        var filePart = feImagePath.split('/');
+        p.saveCanvas(filePart[filePart.length - 1]);
       };
     }, 'container');
   }
