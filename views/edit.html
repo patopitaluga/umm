@@ -30,49 +30,81 @@
     visibility: hidden;
     width: 100%;
   }
-  #container {
+  .container {
     align-items: center;
     display: flex;
     justify-content: center;
     overflow: hidden;
     position: relative;
   }
-  #container input {
+
+  .container.container--might-drag {
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+  }
+
+  .container.container--might-drag.container--dragging {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+  }
+
+  #container div {
     background: transparent;
     box-sizing: border-box;
-    color: rgba(255, 255, 255, 0);
-    /*text-shadow:
-      0 0 7px rgba(0, 0, 0, 1),
-      0 0 7px rgba(0, 0, 0, 1),
-      0 0 3px rgba(0, 0, 0, 1),
-      0 0 3px rgba(0, 0, 0, 1)
-    ;*/
     border: 1px dashed #666;
-    font-family: 'Anton', sans-serif;
-    font-size: 40px;
     position: absolute;
     left: 0;
-    letter-spacing: 2px;
     margin: 0 auto;
     top: 0;
-    text-transform: uppercase;
-    width: 50%;
-    text-align: center;
   }
 
   #container input:focus {
     outline: none;
+  }
+
+  .meme-text-input {
+    border-radius: 5px;
+    margin: 10px 0 0;
   }
 </style>
 </head>
 <body>
 <div id="app">
   <div class="webapp-cont">
-    <a href="./">Back</a>
+    <a
+      href="./"
+      style="display: block;margin-top: 10px;"
+    >Back</a>
     <h1>Ultimate Meme Manager</h1>
     <h2>Add text</h2>
-    <div id="container">
+    <div
+      id="container"
+      class="container"
+      :class="{
+        'container--might-drag': vdMightDrag,
+        'container--dragging': vdDragging,
+      }"
+      style="margin-top: 8px;"
+    >
       <img id="img"/>
+    </div>
+    <input
+      v-for="r in vdBoxes.length"
+      :key="r"
+      :placeholder="'Text ' + r"
+      class="meme-text-input"
+      type="text"
+      v-model="vdTexts[r]"
+    />
+    <div style="display: flex;width: 100%;padding: 8px 0 5px;">
+      <button
+        class="btn"
+        @click="mtdAddText"
+        style="margin: auto 0 auto auto;"
+      >Add text</button>
     </div>
     <button
       class="btn"
@@ -82,125 +114,194 @@
   </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
 <script>
-  // alternative feImagePath = '$ { tplImagePath }';
+// alternative feImagePath = '$ { tplImagePath }';
 
-  /**
-   * To read GET variables php style (kinda). Remember that this is a function, so it's not used $_GET[] but $_GET().
-   *
-   * @param {string} parameterName - The GET variable you're considering. E.g. if the url is sending ?q=1 you'll use $_GET('q').
-   * @return {string|null} The value in that variable or null.
-   */
-  var $_GET = function(parameterName) {
-    /* global location*/
-    var result = null;
-    location.search
-      .substr(1)
-      .split('&')
-      .forEach(function(foundGetVar) {
-        var tmp = foundGetVar.split('=');
-        if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
-      });
-    return result;
-  };
+/**
+ * To read GET variables php style (kinda). Remember that this is a function, so it's not used $_GET[] but $_GET().
+ *
+ * @param {string} parameterName - The GET variable you're considering. E.g. if the url is sending ?q=1 you'll use $_GET('q').
+ * @return {string|null} The value in that variable or null.
+ */
+var $_GET = function(parameterName) {
+  /* global location*/
+  var result = null;
+  location.search
+    .substr(1)
+    .split('&')
+    .forEach(function(foundGetVar) {
+      var tmp = foundGetVar.split('=');
+      if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+    });
+  return result;
+};
 
-  let feImagePath = 'memes/' + $_GET('i');
+let imgWidth = 0;
+let imgHeight = 0;
 
-  let img = document.getElementById('img');
-  img.onload = function() {
-    let imgWidth = this.width;
-    let imgHeight = this.height;
-    this.style.display = 'none';
+new Vue({
+  el: '#app',
+  data: function() { // eslint-disable-line require-jsdoc
+    return {
+      vdBoxes: [],
+      vdTexts: [null, ''],
+      vdBoxModel: {
+        dragging: false,
+        left: 0,
+        top: 0,
+        width: 0,
+        height: 80,
+        draggingOffsetX: 0,
+        draggingOffsetY: 0,
+      },
+      vdMightDrag: false,
+      vdDragging: false,
+    };
+  },
+  mounted: function() {
+    let feImagePath = 'memes/' + $_GET('i');
 
-    new p5(function(p) {
-      let font1;
-      let bg;
-      let dragging = false;
-      let draggingOffsetX = 0;
-      let draggingOffsetY = 0;
-      let writing = '';
-      p.preload = function() {
-        font1 = p.loadFont('anton-regular.ttf');
-        bg = p.loadImage(feImagePath);
-      }
-      let inp;
-      p.setup = function() {
-        p.createCanvas(imgWidth, imgHeight, p.WEBGL);
+    let vueInstanceData = this._data;
+    let img = document.getElementById('img');
+    img.onload = function() {
+      imgWidth = this.width;
+      imgHeight = this.height;
+      this.style.display = 'none';
 
-        p.translate(imgWidth / 2 * -1, imgHeight / 2 * -1);
+      new p5(function(p) {
+        let font1;
+        let bg;
 
-        inp = p.createInput('');
-        inp.style('width', Math.floor(imgWidth * .8) + 'px');
-        inp.style('left', Math.floor((imgWidth - Math.floor(imgWidth * .8)) / 2) + 'px');
-        inp.input(function() {
-          writing = this.value();
-        });
-
-        p.textFont(font1);
-      }
-      p.mousePressed = function() {
-        if (
-          p.mouseX > inp.elt.offsetLeft &&
-          p.mouseX < inp.elt.offsetLeft + inp.width &&
-          p.mouseY > inp.elt.offsetTop &&
-          p.mouseY < inp.elt.offsetTop + inp.height
-        ) {
-          dragging = true;
-          draggingOffsetX = p.mouseX - inp.elt.offsetLeft;
-          draggingOffsetY = p.mouseY - inp.elt.offsetTop;
+        vueInstanceData.vdBoxes.push(JSON.parse(JSON.stringify(vueInstanceData.vdBoxModel)));
+        p.preload = function() {
+          font1 = p.loadFont('anton-regular.ttf');
+          bg = p.loadImage(feImagePath);
         }
-      }
-      p.mouseReleased = function() {
-        dragging = false;
-      }
+        let textBox = document.getElementById('textbox');
+        p.setup = function() {
+          p.createCanvas(imgWidth, imgHeight, p.WEBGL);
 
-      p.draw = function() {
-        p.translate(imgWidth / 2 * -1, imgHeight / 2 * -1);
-        p.image(bg, 0, 0, imgWidth, imgHeight);
-        if (dragging) {
-          var leftPos = (p.mouseX - draggingOffsetX);
-          if (leftPos < 0) leftPos = 0;
-          if (leftPos > imgWidth - inp.width) leftPos = imgWidth - inp.width;
-          inp.elt.style.left = leftPos + 'px';
-          var topPos = (p.mouseY - draggingOffsetY);
-          if (topPos < 0) topPos = 0;
-          if (topPos > imgHeight - inp.height) topPos = imgHeight - inp.height;
-          inp.elt.style.top = topPos + 'px';
+          p.translate(imgWidth / 2 * -1, imgHeight / 2 * -1);
+
+          p.textFont(font1);
+
+          vueInstanceData.vdBoxes.forEach(function(eachBox) {
+            eachBox.width = Math.floor(imgWidth * .8);
+            eachBox.left = Math.floor((imgWidth - Math.floor(imgWidth * .8)) / 2);
+          });
+        }
+        p.mousePressed = function() {
+          let foundOne = false;
+          for (let r = vueInstanceData.vdBoxes.length - 1; r >= 0; r--) {
+            const eachBox = vueInstanceData.vdBoxes[r];
+            if (foundOne) return;
+            if (
+              p.mouseX > eachBox.left &&
+              p.mouseX < eachBox.left + eachBox.width &&
+              p.mouseY > eachBox.top &&
+              p.mouseY < eachBox.top + eachBox.height
+            ) {
+              foundOne = true;
+              eachBox.dragging = true;
+              eachBox.draggingOffsetX = p.mouseX - eachBox.left;
+              eachBox.draggingOffsetY = p.mouseY - eachBox.top;
+              vueInstanceData.vdDragging = true;
+            }
+          }
+        }
+        p.mouseReleased = function() {
+          vueInstanceData.vdBoxes.forEach(function(eachBox) {
+            eachBox.dragging = false;
+          });
+          vueInstanceData.vdDragging = false;
         }
 
-        // p.filter(p.BLUR);
-        p.textAlign(p.CENTER);
-        p.textSize(42);
-        p.fill(0, 0, 0);
+        p.draw = function() {
+          p.translate(imgWidth / 2 * -1, imgHeight / 2 * -1);
+          p.image(bg, 0, 0, imgWidth, imgHeight);
 
-        let topOffset = 11;
-        let leftOffset = 4;
-        let positions = [1, 2, 2.5];
-        positions.forEach(function(eachPos) {
-          p.text(writing.toUpperCase(), inp.elt.offsetLeft + leftOffset - eachPos, inp.elt.offsetTop + topOffset - eachPos, inp.width, inp.height);
-          p.text(writing.toUpperCase(), inp.elt.offsetLeft + leftOffset, inp.elt.offsetTop + topOffset - eachPos, inp.width, inp.height);
-          p.text(writing.toUpperCase(), inp.elt.offsetLeft + leftOffset + eachPos, inp.elt.offsetTop + topOffset - eachPos, inp.width, inp.height);
+          p.strokeWeight(1)
+          p.stroke(255)
+          p.fill(255, 255, 255, 0)
 
-          p.text(writing.toUpperCase(), inp.elt.offsetLeft + leftOffset - eachPos, inp.elt.offsetTop + topOffset, inp.width, inp.height);
-          p.text(writing.toUpperCase(), inp.elt.offsetLeft + leftOffset + eachPos, inp.elt.offsetTop + topOffset, inp.width, inp.height);
+          let mightDrag = false;
+          vueInstanceData.vdBoxes.forEach(function(eachBox) {
+            if (eachBox.dragging) {
+              var leftPos = (p.mouseX - eachBox.draggingOffsetX);
+              if (leftPos < 0) leftPos = 0;
+              if (leftPos > imgWidth - eachBox.width) leftPos = imgWidth - eachBox.width;
+              eachBox.left = leftPos;
+              var topPos = (p.mouseY - eachBox.draggingOffsetY);
+              if (topPos < 0) topPos = 0;
+              if (topPos > imgHeight - eachBox.height) topPos = imgHeight - eachBox.height;
+              eachBox.top = topPos;
+            }
 
-          p.text(writing.toUpperCase(), inp.elt.offsetLeft + leftOffset - eachPos, inp.elt.offsetTop + topOffset + eachPos, inp.width, inp.height);
-          p.text(writing.toUpperCase(), inp.elt.offsetLeft + leftOffset, inp.elt.offsetTop + topOffset + eachPos, inp.width, inp.height);
-          p.text(writing.toUpperCase(), inp.elt.offsetLeft + leftOffset + eachPos, inp.elt.offsetTop + topOffset + eachPos, inp.width, inp.height);
-        });
+            mightDrag = (
+              p.mouseX > eachBox.left &&
+              p.mouseX < eachBox.left + eachBox.width &&
+              p.mouseY > eachBox.top &&
+              p.mouseY < eachBox.top + eachBox.height
+            )
 
-        p.fill(255, 255, 255);
-        p.text(writing.toUpperCase(), inp.elt.offsetLeft + leftOffset, inp.elt.offsetTop + topOffset, inp.width, inp.height);
-      }
+            if (
+              p.mouseX > 0 && p.mouseX < imgWidth &&
+              p.mouseY > 0 && p.mouseY < imgHeight
+            )
+              p.rect(eachBox.left, eachBox.top, eachBox.width, eachBox.height);
+          });
+          vueInstanceData.vdMightDrag = mightDrag;
 
-      document.getElementById('download-button').onclick = function() {
-        var filePart = feImagePath.split('/');
-        p.saveCanvas(filePart[filePart.length - 1]);
-      };
-    }, 'container');
+          // p.filter(p.BLUR);
+          p.textAlign(p.CENTER);
+          p.textSize(42);
+
+          let topOffset = 11;
+          let leftOffset = 4;
+          let positions = [1, 2, 2.5];
+
+          vueInstanceData.vdBoxes.forEach(function(eachBox, i) {
+            p.fill(0, 0, 0);
+
+            positions.forEach(function(eachPos) {
+              p.text(vueInstanceData.vdTexts[i + 1].toUpperCase(), eachBox.left + leftOffset - eachPos, eachBox.top + topOffset - eachPos, eachBox.width, eachBox.height);
+              p.text(vueInstanceData.vdTexts[i + 1].toUpperCase(), eachBox.left + leftOffset, eachBox.top + topOffset - eachPos, eachBox.width, eachBox.height);
+              p.text(vueInstanceData.vdTexts[i + 1].toUpperCase(), eachBox.left + leftOffset + eachPos, eachBox.top + topOffset - eachPos, eachBox.width, eachBox.height);
+
+              p.text(vueInstanceData.vdTexts[i + 1].toUpperCase(), eachBox.left + leftOffset - eachPos, eachBox.top + topOffset, eachBox.width, eachBox.height);
+              p.text(vueInstanceData.vdTexts[i + 1].toUpperCase(), eachBox.left + leftOffset + eachPos, eachBox.top + topOffset, eachBox.width, eachBox.height);
+
+              p.text(vueInstanceData.vdTexts[i + 1].toUpperCase(), eachBox.left + leftOffset - eachPos, eachBox.top + topOffset + eachPos, eachBox.width, eachBox.height);
+              p.text(vueInstanceData.vdTexts[i + 1].toUpperCase(), eachBox.left + leftOffset, eachBox.top + topOffset + eachPos, eachBox.width, eachBox.height);
+              p.text(vueInstanceData.vdTexts[i + 1].toUpperCase(), eachBox.left + leftOffset + eachPos, eachBox.top + topOffset + eachPos, eachBox.width, eachBox.height);
+            });
+
+            p.fill(255, 255, 255);
+            p.text(vueInstanceData.vdTexts[i + 1].toUpperCase(), eachBox.left + leftOffset, eachBox.top + topOffset, eachBox.width, eachBox.height);
+          });
+        }
+
+        document.getElementById('download-button').onclick = function() {
+          var filePart = feImagePath.split('/');
+          p.saveCanvas(filePart[filePart.length - 1]);
+        };
+      }, 'container');
+    }
+    img.src = feImagePath;
+  },
+  methods: {
+    /**
+     *
+     */
+    mtdAddText: function() {
+      this.vdBoxes.push(JSON.parse(JSON.stringify(this.vdBoxModel)));
+      this.vdBoxes[this.vdBoxes.length - 1].width = Math.floor(imgWidth * .8);
+      this.vdBoxes[this.vdBoxes.length - 1].left = Math.floor((imgWidth - Math.floor(imgWidth * .8)) / 2);
+      this.vdTexts.push('');
+    },
   }
-  img.src = feImagePath;
-
+});
 </script>
 </body>
 </html>
