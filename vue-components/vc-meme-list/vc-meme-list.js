@@ -4,6 +4,10 @@ export default {
       required: true,
       type: Array,
     },
+    vpCols: {
+      default: 2,
+      type: Number,
+    },
   },
   methods: {
     /**

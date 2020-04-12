@@ -1,5 +1,11 @@
 <template>
-  <ul class="search__results">
+  <ul
+    class="search__results"
+    :class="{
+      'search__results--cols3': vpCols === 3,
+      'search__results--cols4': vpCols === 4,
+    }"
+  >
     <li
       class="search__suggestion"
       v-for="(eachMemeFound, i) in vpMemeList"

@@ -17,6 +17,20 @@
   margin: 10px 0 0;
   padding: 0;
 
+  &.search__results--cols3 {
+
+    li {
+      width: 33.3333%;
+    }
+  }
+
+  &.search__results--cols4 {
+
+    li {
+      width: 25%;
+    }
+  }
+
   li {
     box-sizing: border-box;
     display: block;

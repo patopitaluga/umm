@@ -1,5 +1,5 @@
 <template>
-  <div style="padding: 5px; background: #eee;margin-top: 10px;border-radius: 5px;">
+  <div style="padding: 2px 10px 10px; background: #eee;margin-top: 10px;border-radius: 5px;">
     <form autocomplete="off">
       <input
         class="search__input"
