@@ -116,38 +116,36 @@ new Vue({
         xhr.open('GET', 'memes/' + meme.img);
         xhr.responseType = 'blob';
         xhr.onerror = function() {
-
-          document.getElementById('answer-example-share-button').onclick = function() {
-            if (navigator.share) {
-              navigator.share({
-                title: '',
-                text: '',
-                // files: [new File(['content'], 'sample1.txt', { type: 'text/plain' })],
-                files: [
-                  new File([
-                    xhr.response // the blob
-                  ], meme.img, {type: 'image/jpeg', lastModified: Date.now()})
-                ],
-              })
-                .then(function() {
-                  document.getElementById('output').innerHTML = 'Share was successful.';
-                })
-                .catch(function(err) {
-                  console.log(err)
-                  document.getElementById('output').innerHTML = 'a' + JSON.stringify(err);
-                });
-
-            } else {
-              document.getElementById('output').innerHTML = 'Your system doesn\'t support sharing files';
-            }
-          }
-
-
           console.log('Network error.');
         };
         xhr.onload = function() {
           if (xhr.status === 200) {
-            resolve(xhr.response);
+
+            document.getElementById('answer-example-share-button').onclick = function() {
+              if (navigator.share) {
+                navigator.share({
+                  title: '',
+                  text: '',
+                  // files: [new File(['content'], 'sample1.txt', { type: 'text/plain' })],
+                  files: [
+                    new File([
+                      xhr.response // the blob
+                    ], meme.img, {type: 'image/jpeg', lastModified: Date.now()})
+                  ],
+                })
+                  .then(function() {
+                    document.getElementById('output').innerHTML = 'Share was successful.';
+                  })
+                  .catch(function(err) {
+                    console.log(err)
+                    document.getElementById('output').innerHTML = 'a' + JSON.stringify(err);
+                  });
+
+              } else {
+                document.getElementById('output').innerHTML = 'Your system doesn\'t support sharing files';
+              }
+            }
+
           } else {
             console.log('Loading error:' + xhr.statusText);
           }
