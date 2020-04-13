@@ -18,7 +18,15 @@ export default {
   },
   methods: {
     /**
+     * Triggered when user clicks on suggested option.
      *
+     * @param {string} img -
+     */
+    mtdEditSelected: function(img) {
+      window.location.href = 'edit?i=' + img;
+    },
+
+    /**
      *
      */
     toggleActive: function() {
