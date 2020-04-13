@@ -26,7 +26,6 @@
     <h1>Ultimate Meme Manager</h1>
     <search
       :vp-meme-list="vdMemeList"
-      @downloadmeme="triggerDownloadMeme"
       @sharememe="triggerShareMeme"
       @addtofrequent="addToFrequent"
     >
@@ -37,7 +36,6 @@
     <memelist
       :vp-meme-list="vdFrequent"
       :vp-cols="3"
-      @downloadmeme="triggerDownloadMeme"
       @sharememe="triggerShareMeme"
       @addtofrequent="addToFrequent"
     >
@@ -48,7 +46,6 @@
     <memelist
       :vp-meme-list="vdRandomMemes"
       :vp-cols="4"
-      @downloadmeme="triggerDownloadMeme"
       @sharememe="triggerShareMeme"
       @addtofrequent="addToFrequent"
     >
