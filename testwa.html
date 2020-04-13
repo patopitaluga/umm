@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <title>Ultimate Meme Manager</title>
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, viewport-fit=cover"/>
@@ -66,7 +67,7 @@
 <div id="app">
   <div class="webapp-cont">
 
-    <button id="answer-example-share-button">Share file</button>
+    <button id="answer-example-share-button">Share file 2</button>
     <div id="output">
     </div>
 
@@ -96,11 +97,11 @@
       });
     }
 
-    loadXHR('memes/lester.jpg').then(function(blob) {
+    loadXHR('memes/lester.jpg').then(function(theFblob) {
       document.getElementById('answer-example-share-button').onclick = function() {
-        let f = new File([blob], 'lester.jpg');
+        // let f = new File([blob], 'lester.jpg');
         if (navigator.share) {
-          if (navigator.canShare && navigator.canShare({ files: filesArray })) {
+/*          if (navigator.canShare && navigator.canShare({ files: filesArray })) {
             navigator.share({
               files: f,
               title: 'Vacation Pictures',
@@ -114,7 +115,34 @@
             });
           } else {
             document.getElementById('output').innerHTML = 'Your system doesn\'t support sharing files';
+          }*/
+
+          function blobToFile(theBlob, fileName) {
+            //A Blob() is almost a File() - it's just missing the two properties below which we will add
+            theBlob.lastModifiedDate = new Date();
+            theBlob.name = fileName;
+            return theBlob;
           }
+
+          const files = [blobToFile(theFblob, 'lester.jpg')];
+          if (navigator.canShare && navigator.canShare({
+            files: files
+          })) {
+            navigator.share({
+              title: title.value,
+              text: text.value,
+              file: files,
+            })
+              .then(function() {
+                document.getElementById('output').innerHTML = 'Share was successful.';
+              })
+              .catch(function(error) {
+                document.getElementById('output').innerHTML = JSON.stringify(error);
+              });
+          } else {
+            console.log("Web Share API is not supported in your browser.")
+          }
+
         } else {
           document.getElementById('output').innerHTML = 'Your system doesn\'t support sharing files';
         }
