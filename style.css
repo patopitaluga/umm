@@ -44,9 +44,11 @@ h2 {
   border-radius: 5px;
   color: #fff;
   cursor: pointer;
-  display: block;
+  font-size: 12px;
+  display: inline-block;
   margin: 0 auto;
   padding: 7px 12px;
+  text-decoration: none;
 }
 
 .btn:focus {

@@ -1,5 +1,7 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+<meta charset="utf-8"/>
 <title>Ultimate Meme Manager</title>
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, viewport-fit=cover"/>
 <style>
@@ -71,17 +73,7 @@
     >Back</a>
     <h1>Ultimate Meme Manager</h1>
     <h2>Add text</h2>
-    <div
-      id="container"
-      class="container"
-      :class="{
-        'container--might-drag': vdMightDrag,
-        'container--dragging': vdDragging,
-      }"
-      style="margin-top: 8px;"
-    >
-      <img id="img"/>
-    </div>
+
     <input
       v-for="r in vdBoxes.length"
       :key="r"
@@ -96,6 +88,18 @@
         @click="mtdAddText"
         style="margin: auto 0 auto auto;"
       >Add text</button>
+    </div>
+
+    <div
+      id="container"
+      class="container"
+      :class="{
+        'container--might-drag': vdMightDrag,
+        'container--dragging': vdDragging,
+      }"
+      style="margin-top: 8px;"
+    >
+      <img id="img"/>
     </div>
     <button
       class="btn"

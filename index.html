@@ -1,5 +1,7 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+<meta charset="utf-8"/>
 <title>Ultimate Meme Manager</title>
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, viewport-fit=cover"/>
 <link rel="stylesheet" href="style.css"/>
@@ -24,7 +26,8 @@
     <h1>Ultimate Meme Manager</h1>
     <search
       :vp-meme-list="vdMemeList"
-      @memeclicked="memeClicked"
+      @downloadmeme="triggerDownloadMeme"
+      @sharememe="triggerShareMeme"
     >
     </search>
 
@@ -33,7 +36,8 @@
     <memelist
       :vp-meme-list="vdFrequent"
       :vp-cols="3"
-      @memeclicked="memeClicked"
+      @downloadmeme="triggerDownloadMeme"
+      @sharememe="triggerShareMeme"
     >
     </memelist>
 
@@ -42,7 +46,8 @@
     <memelist
       :vp-meme-list="vdRandomMemes"
       :vp-cols="4"
-      @memeclicked="memeClicked"
+      @downloadmeme="triggerDownloadMeme"
+      @sharememe="triggerShareMeme"
     >
     </memelist>
 
