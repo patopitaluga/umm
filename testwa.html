@@ -67,7 +67,7 @@
 <div id="app">
   <div class="webapp-cont">
 
-    <button id="answer-example-share-button">Share file 7</button>
+    <button id="answer-example-share-button">Share file 8</button>
     <div id="output">
     </div>
 
@@ -129,6 +129,7 @@
             //A Blob() is almost a File() - it's just missing the two properties below which we will add
             theBlob.lastModifiedDate = new Date();
             theBlob.name = fileName;
+            theBlob.type = 'image/jpeg';
             return theBlob;
           }
 
@@ -136,7 +137,8 @@
           navigator.share({
             title: 'Vacation Pictures',
             text: 'Photos from September 27 to October 14.',
-            files: [new File(['content'], 'sample1.txt')],
+            //files: [new File(['content'], 'sample1.txt', { type: 'text/plain' })],
+            files: [blobToFile(theFblob, 'lester.jpg')],
           })
             .then(function() {
               document.getElementById('output').innerHTML = 'Share was successful.';
