@@ -18,14 +18,14 @@
       </div>
       <div
         v-if="vdActive"
-        style="display: flex;align-tems: center;justify-content: center; flex-wrap: wrap;"
+        style="display: flex;align-tems: center;justify-content: center; flex-wrap: wrap;padding-left: 4px;padding-right: 4px;"
       >
         <a
           class="btn btn--download"
           :href="'memes/' + vpMeme.img"
           download
           title="Download"
-          @click.prevent="$emit('downloadmeme', vpMeme)"
+          @click.prevent="triggerDownloadMeme(vpMeme)"
         >
           Download
         </a>
