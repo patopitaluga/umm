@@ -9,11 +9,13 @@
       <img
         :src="'memes/' + vpMeme.img"
         @click="toggleActive"
+        @touchstart.preven="toggleActive"
       />
       <div
         class="meme-item__title"
         v-html="vpMeme.name"
         @click="toggleActive"
+        @touchstart.preven="toggleActive"
       >
       </div>
       <div

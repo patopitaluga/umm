@@ -26,6 +26,7 @@ module.exports = {
   mode: ((process.env.NODE_ENV && process.env.NODE_ENV === 'development') ? 'development' : 'production'), /* Documentation: https://webpack.js.org/concepts/mode/ */
   entry: {
     'home': './src/src-home.js',
+    'edit': './src/src-edit.js',
   },
   output: {
     path: path.resolve(__dirname, 'public/dist'),
