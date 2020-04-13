@@ -196,7 +196,7 @@ module.exports =[
     category: '',
   },
   {
-    name: '¿Por qué eres así?',
+    name: 'Wey ya',
     img: 'wey-ya.jpg',
     editable: false,
     category: '',
