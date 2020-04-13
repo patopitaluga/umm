@@ -26,7 +26,6 @@
     <h1>Ultimate Meme Manager</h1>
     <search
       :vp-meme-list="vdMemeList"
-      @sharememe="triggerShareMeme"
       @addtofrequent="addToFrequent"
     >
     </search>
@@ -36,7 +35,6 @@
     <memelist
       :vp-meme-list="vdFrequent"
       :vp-cols="3"
-      @sharememe="triggerShareMeme"
       @addtofrequent="addToFrequent"
     >
     </memelist>
@@ -46,7 +44,6 @@
     <memelist
       :vp-meme-list="vdRandomMemes"
       :vp-cols="4"
-      @sharememe="triggerShareMeme"
       @addtofrequent="addToFrequent"
     >
     </memelist>
@@ -54,6 +51,6 @@
   </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-<script src="dist/home.js?r=1"></script>
+<script src="dist/home.js?r=3"></script>
 </body>
 </html>
