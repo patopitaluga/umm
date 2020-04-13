@@ -67,7 +67,7 @@
 <div id="app">
   <div class="webapp-cont">
 
-    <button id="answer-example-share-button">Share file 2</button>
+    <button id="answer-example-share-button">Share file 3</button>
     <div id="output">
     </div>
 
@@ -124,24 +124,19 @@
             return theBlob;
           }
 
-          const files = [blobToFile(theFblob, 'lester.jpg')];
-          if (navigator.canShare && navigator.canShare({
-            files: files
-          })) {
-            navigator.share({
-              title: title.value,
-              text: text.value,
-              file: files,
+          // const files = [blobToFile(theFblob, 'lester.jpg')];
+          navigator.share({
+            title: 'a',
+            text: 'b',
+            // file: files,
+            file: blobToFile(theFblob, 'lester.jpg'),
+          })
+            .then(function() {
+              document.getElementById('output').innerHTML = 'Share was successful.';
             })
-              .then(function() {
-                document.getElementById('output').innerHTML = 'Share was successful.';
-              })
-              .catch(function(error) {
-                document.getElementById('output').innerHTML = JSON.stringify(error);
-              });
-          } else {
-            console.log("Web Share API is not supported in your browser.")
-          }
+            .catch(function(error) {
+              document.getElementById('output').innerHTML = JSON.stringify(error);
+            });
 
         } else {
           document.getElementById('output').innerHTML = 'Your system doesn\'t support sharing files';
