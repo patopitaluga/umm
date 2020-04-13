@@ -67,7 +67,7 @@
 <div id="app">
   <div class="webapp-cont">
 
-    <button id="answer-example-share-button">Share file 9</button>
+    <button id="answer-example-share-button">Share file 10</button>
     <div id="output">
     </div>
 
@@ -97,48 +97,14 @@
       });
     }
 
-    function FileListItem(a) {
-      a = [].slice.call(Array.isArray(a) ? a : arguments)
-      for (var c, b = c = a.length, d = !0; b-- && d;) d = a[b] instanceof File
-      if (!d) throw new TypeError("expected argument to FileList is File or array of File objects")
-      for (b = (new ClipboardEvent("")).clipboardData || new DataTransfer; c--;) b.items.add(a[c])
-      return b.files
-    }
-
     loadXHR('memes/lester.jpg').then(function(theFblob) {
       document.getElementById('answer-example-share-button').onclick = function() {
-        // let f = new File([blob], 'lester.jpg');
         if (navigator.share) {
-/*          if (navigator.canShare && navigator.canShare({ files: filesArray })) {
-            navigator.share({
-              files: f,
-              title: 'Vacation Pictures',
-              text: 'Photos from September 27 to October 14.',
-            })
-            .then(function() {
-              document.getElementById('output').innerHTML = 'Share was successful.';
-            })
-            .catch(function(error) {
-              document.getElementById('output').innerHTML = JSON.stringify(error);
-            });
-          } else {
-            document.getElementById('output').innerHTML = 'Your system doesn\'t support sharing files';
-          }*/
-
-          function blobToFile(theBlob, fileName) {
-            //A Blob() is almost a File() - it's just missing the two properties below which we will add
-            theBlob.lastModifiedDate = new Date();
-            theBlob.name = fileName;
-            theBlob.type = 'image/jpeg';
-            return theBlob;
-          }
-
-          // const files = [blobToFile(theFblob, 'lester.jpg')];
           navigator.share({
             title: 'Vacation Pictures',
             text: 'Photos from September 27 to October 14.',
-            files: [new File(['content'], 'sample1.txt', { type: 'text/plain' })],
-            //files: [blobToFile(theFblob, 'lester.jpg')],
+            // files: [new File(['content'], 'sample1.txt', { type: 'text/plain' })],
+            files: [new File([theFblob], 'lester.jpg', {type: 'image/jpeg', lastModified: Date.now()})],
           })
             .then(function() {
               document.getElementById('output').innerHTML = 'Share was successful.';
