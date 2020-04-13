@@ -193,8 +193,8 @@ new Vue({
           // files: [new File(['content'], 'sample1.txt', { type: 'text/plain' })],
           files: [
             new File([
-              xhr.response // the blob
-            ], fileName, {type: 'image/jpeg', lastModified: Date.now()})
+              blob // the blob
+            ], fileName, { type: 'image/jpeg', lastModified: Date.now() })
           ],
         })
           .then(function() {
