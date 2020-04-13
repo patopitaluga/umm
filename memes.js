@@ -107,14 +107,14 @@ module.exports =[
   {
     name: 'Burns pero la concha de tu madre',
     img: 'burns-pero-la-concha-de-tu-madre.jpg',
-    editable: true,
+    editable: false,
     year: 2019,
     category: 'simpsons',
   },
   {
     name: 'Rafa: Estoy feliz y enojado',
     img: 'rafa-estoy-feliz-y-enojado.jpg',
-    editable: true,
+    editable: false,
     category: 'simpsons',
   },
   {
@@ -126,13 +126,13 @@ module.exports =[
   {
     name: 'Usted no aprende verdad',
     img: 'usted-no-aprende-verdad.jpg',
-    editable: true,
+    editable: false,
     category: 'simpsons',
   },
   {
     name: 'Profesor Cocoon: Yo diría que sí',
     img: 'yo-diria-que-si.jpg',
-    editable: true,
+    editable: false,
     category: 'simpsons',
   },
   {
@@ -168,7 +168,7 @@ module.exports =[
   {
     name: 'George Harrison en los Simpson: esto ya se ha visto',
     img: 'esto-ya-se-ha-visto.jpg',
-    editable: true,
+    editable: false,
     category: 'simpsons',
   },
   {
@@ -192,13 +192,13 @@ module.exports =[
   {
     name: '¿Por qué eres así?',
     img: 'por-que-eres-asi.jpg',
-    editable: true,
+    editable: false,
     category: '',
   },
   {
     name: '¿Por qué eres así?',
     img: 'wey-ya.jpg',
-    editable: true,
+    editable: false,
     category: '',
   },
   {
@@ -249,5 +249,26 @@ module.exports =[
     editable: true,
     category: '',
     year: 2019,
+  },
+  {
+    name: 'Distracted Boyfriend',
+    img: 'distracted-boyfriend.jpg',
+    editable: true,
+    category: '',
+    year: 2017,
+  },
+  {
+    name: 'Expanding Brain',
+    img: 'expanding-brain.jpg',
+    editable: true,
+    category: '',
+    year: 2017,
+  },
+  {
+    name: 'Salt Bae',
+    img: 'salt-bae.jpg',
+    editable: true,
+    category: '',
+    year: 2017,
   },
 ];
