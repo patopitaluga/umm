@@ -135,4 +135,9 @@ module.exports =[
     img: 'lester.jpg',
     category: 'simpsons',
   },
+  {
+    name: 'Terraplanista Rex',
+    img: 'terraplanista-rex.jpg',
+    category: '',
+  },
 ];
