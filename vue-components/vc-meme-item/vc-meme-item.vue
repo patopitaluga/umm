@@ -40,7 +40,7 @@
             'btn--share--android': vdPlatformOs !== 'ios'
           }"
           title="Share"
-          @click.prevent="$emit('sharememe', vpMeme)"
+          @click.prevent="triggerShareMeme"
         >
           Share
         </button>

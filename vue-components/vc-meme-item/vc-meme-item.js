@@ -52,5 +52,48 @@ export default {
       a.click();
       document.body.removeChild(a);
     },
+
+    /**
+     *
+     */
+    triggerShareMeme: function() {
+      if (!navigator.share) return;
+
+      let meme = this.vpMeme;
+      try {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'memes/' + meme.img);
+        xhr.responseType = 'blob';
+        xhr.onerror = function() {
+          console.log('Network error.');
+        };
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            navigator.share({
+              title: '',
+              text: '',
+              // files: [new File(['content'], 'sample1.txt', { type: 'text/plain' })],
+              files: [
+                new File([
+                  xhr.response // the blob
+                ], meme.img, {type: 'image/jpeg', lastModified: Date.now()})
+              ],
+            })
+              .then(function() {
+              })
+              .catch(function(err) {
+                console.log(err)
+              });
+          } else {
+            console.log('Loading error:' + xhr.statusText);
+          }
+        };
+        xhr.send();
+      }
+      catch(err) {
+        console.log(err.message);
+      };
+
+    },
   },
 };

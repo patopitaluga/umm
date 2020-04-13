@@ -87,12 +87,4 @@ module.exports = {
    */
   mtdSuggestionSelected: function(optionId, optionLabel) {
   },
-
-  /**
-   *
-   * @param {object} meme -
-   */
-  mtdTriggerShareMeme: function(meme) {
-    this.$emit('sharememe', meme)
-  },
 };
