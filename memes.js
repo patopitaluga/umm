@@ -237,4 +237,10 @@ module.exports =[
     editable: false,
     category: '',
   },
+  {
+    name: 'Terraplanista Rex',
+    img: 'terraplanista-rex.jpg',
+    editable: true,
+    category: '',
+  }
 ];
