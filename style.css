@@ -10,6 +10,10 @@ form {
   padding: 0;
 }
 
+* {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+
 .webapp-cont {
   box-sizing: border-box;
   margin: 0 auto;
