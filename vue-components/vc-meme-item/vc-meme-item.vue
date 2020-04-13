@@ -4,13 +4,16 @@
     :class="{
       'meme-item--active': vdActive,
     }"
-    @click="toggleActive"
   >
     <div class="meme-item__bg">
-      <img :src="'memes/' + vpMeme.img"/>
+      <img
+        :src="'memes/' + vpMeme.img"
+        @click="toggleActive"
+      />
       <div
         class="meme-item__title"
         v-html="vpMeme.name"
+        @click="toggleActive"
       >
       </div>
       <div
