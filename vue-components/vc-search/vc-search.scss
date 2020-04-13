@@ -35,6 +35,7 @@
     box-sizing: border-box;
     display: block;
     margin: 0;
+    overflow: hidden;
     padding: 0 5px 10px;
     width: 50%;
     text-align: center;
@@ -73,6 +74,7 @@
   color: #fff;
   cursor: pointer;
   display: block;
+  font-size: 13px;
   margin: 0 auto;
   padding: 7px 12px;
 }

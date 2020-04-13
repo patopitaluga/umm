@@ -31,7 +31,7 @@ new Vue({
   },
   mounted: function() {
     var arFrequent = [];
-    var strFrequent = window.localStorage.getItem('memesd2_frequent');
+    var strFrequent = window.localStorage.getItem('memesd3_frequent');
     if (strFrequent === null) strFrequent = '[]';
     try {
       arFrequent = JSON.parse(strFrequent);
@@ -46,7 +46,7 @@ new Vue({
      */
     memeClicked: function(meme) {
       var arFrequent = [];
-      var strFrequent = window.localStorage.getItem('memesd2_frequent');
+      var strFrequent = window.localStorage.getItem('memesd3_frequent');
       if (strFrequent === null) strFrequent = '[]';
       try {
         arFrequent = JSON.parse(strFrequent);
@@ -62,8 +62,9 @@ new Vue({
         arFrequent.push({
           'name': meme.name,
           'img': meme.img,
+          'editable': meme.editable,
         });
-        window.localStorage.setItem('memesd2_frequent', JSON.stringify(arFrequent));
+        window.localStorage.setItem('memesd3_frequent', JSON.stringify(arFrequent));
       }
       this.vdFrequent = arFrequent;
       // window.location.href = '/download/' + meme.img;

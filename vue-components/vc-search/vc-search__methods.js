@@ -70,7 +70,8 @@ module.exports = {
         ) {
           matches.push({
             img: eachMeme.img,
-            name: eachMeme.name.showMatching(vueInstanceData.vdInputSuggestionTerm)
+            name: eachMeme.name.showMatching(vueInstanceData.vdInputSuggestionTerm),
+            editable: eachMeme.editable,
           });
         }
       });

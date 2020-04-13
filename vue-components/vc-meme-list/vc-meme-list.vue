@@ -8,28 +8,29 @@
   >
     <li
       class="search__suggestion"
-      v-for="(eachMemeFound, i) in vpMemeList"
+      v-for="(eachMeme, i) in vpMemeList"
       :key="i"
     >
-      <img :src="'memes/' + eachMemeFound.img"/>
+      <img :src="'memes/' + eachMeme.img"/>
       <div
         class="search__suggestion__title"
-        v-html="eachMemeFound.name"
+        v-html="eachMeme.name"
       >
       </div>
       <a
         class="search__suggestion__link"
-        :href="'memes/' + eachMemeFound.img"
+        :href="'memes/' + eachMeme.img"
         download
-        @click.prevent="$emit('memeclicked', eachMemeFound)"
+        @click.prevent="$emit('memeclicked', eachMeme)"
       >
         Download
       </a>
       <button
+        v-if="eachMeme.editable"
         class="search__suggestion__btn"
-        @click="mtdEditSelected(eachMemeFound.img)"
+        @click="mtdEditSelected(eachMeme.img)"
       >
-        Add text
+        Edit
       </button>
     </li>
   </ul>
