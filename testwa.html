@@ -66,7 +66,9 @@
 <div id="app">
   <div class="webapp-cont">
 
-    <button id="answer-example-share-button">Share gif</button>
+    <button id="answer-example-share-button">Share file</button>
+    <div id="output">
+    </div>
 
     <script>
 
@@ -96,23 +98,25 @@
 
     loadXHR('memes/lester.jpg').then(function(blob) {
       document.getElementById('answer-example-share-button').onclick = function() {
-        filesArray = [
-          blob
-        ];
+        let f = new File([blob], 'lester.jpg');
         if (navigator.share) {
           if (navigator.canShare && navigator.canShare({ files: filesArray })) {
             navigator.share({
-              files: filesArray,
+              files: f,
               title: 'Vacation Pictures',
               text: 'Photos from September 27 to October 14.',
             })
-            .then(() => console.log('Share was successful.'))
-            .catch((error) => console.log('Sharing failed', error));
+            .then(function() {
+              document.getElementById('output').innerHTML = 'Share was successful.';
+            })
+            .catch(function(error) {
+              document.getElementById('output').innerHTML = JSON.stringify(error);
+            });
           } else {
-            console.log(`Your system doesn't support sharing files.`);
+            document.getElementById('output').innerHTML = 'Your system doesn\'t support sharing files';
           }
         } else {
-          console.log('Share not supported on this browser, do it the old way.');
+          document.getElementById('output').innerHTML = 'Your system doesn\'t support sharing files';
         }
       }
     });
