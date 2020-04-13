@@ -1,19 +1,25 @@
 .search__results {
+  position: relative;
 
   .btn {
-    background-color: #eee;
+    align-items: center;
+    background-color: #fff;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: 12px auto;
-    display: block;
-    height: 35px;
+    box-sizing: border-box;
+    color: #000;
+    display: flex;
+    // height: 35px;
+    height: 25px;
+    justify-content: center;
     overflow: hidden;
     margin-left: 2px;
     margin-right: 2px;
     margin-top: 5px;
-    padding: 0;
-    width: 35px;
-    text-indent: -500px;
+    // padding: 0;
+    // width: 35px;
+    // text-indent: -500px;
 
     &:first-child {
       margin-left: auto;
@@ -25,6 +31,7 @@
   }
 }
 
+/*
 .btn--download {
   background-image: url('/umm/file-download.svg');
 }
@@ -39,4 +46,4 @@
 
 .btn--edit {
   background-image: url('/umm/pencil-alt.svg');
-}
+}*/

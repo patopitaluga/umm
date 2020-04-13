@@ -1,0 +1,40 @@
+.meme-item {
+  display: flex;
+  flex: 0 1 auto;
+  padding: 0 5px;
+  margin-bottom: 5px;
+
+  &.meme-item--active {
+  }
+
+  span {
+    font-weight: bold;
+  }
+
+  .meme-item__bg {
+    background: rgb(238, 238, 238);
+    cursor: pointer;
+    padding: 0 5px 10px;
+    margin: 0;
+    width: 100%;
+  }
+}
+
+.meme-item__title {
+  font-size: 13px;
+  padding-top: 10px;
+  text-align: center;
+  width: 100%;
+}
+
+.meme-item__btn {
+  background: #aaa;
+  border: 0;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  display: block;
+  font-size: 13px;
+  margin: 0 auto;
+  padding: 7px 12px;
+}

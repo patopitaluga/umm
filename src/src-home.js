@@ -55,7 +55,7 @@ new Vue({
   },
   mounted: function() {
     var arFrequent = [];
-    var strFrequent = window.localStorage.getItem('memesd3_frequent');
+    var strFrequent = window.localStorage.getItem('memesd6_frequent');
     if (strFrequent === null) strFrequent = '[]';
     try {
       arFrequent = JSON.parse(strFrequent);
@@ -68,9 +68,9 @@ new Vue({
     /**
      *
      */
-    triggerDownloadMeme: function(meme) {
+    addToFrequent: function(meme) {
       var arFrequent = [];
-      var strFrequent = window.localStorage.getItem('memesd3_frequent');
+      var strFrequent = window.localStorage.getItem('memesd6_frequent');
       if (strFrequent === null) strFrequent = '[]';
       try {
         arFrequent = JSON.parse(strFrequent);
@@ -88,9 +88,18 @@ new Vue({
           'img': meme.img,
           'editable': meme.editable,
         });
-        window.localStorage.setItem('memesd3_frequent', JSON.stringify(arFrequent));
+        window.localStorage.setItem('memesd6_frequent', JSON.stringify(arFrequent));
       }
-      this.vdFrequent = arFrequent;
+      arFrequent.forEach(function(eachFreq) {
+        eachFreq.active = true;
+      });
+      // this.vdFrequent = arFrequent;
+    },
+
+    /**
+     *
+     */
+    triggerDownloadMeme: function(meme) {
       // window.location.href = '/download/' + meme.img;
 
       var file_path = 'memes/' + meme.img;
@@ -110,6 +119,7 @@ new Vue({
      *
      */
     triggerShareMeme: function(meme) {
+      if (!navigator.share) return;
 
       try {
         var xhr = new XMLHttpRequest();
@@ -120,32 +130,21 @@ new Vue({
         };
         xhr.onload = function() {
           if (xhr.status === 200) {
-
-            document.getElementById('answer-example-share-button').onclick = function() {
-              if (navigator.share) {
-                navigator.share({
-                  title: '',
-                  text: '',
-                  // files: [new File(['content'], 'sample1.txt', { type: 'text/plain' })],
-                  files: [
-                    new File([
-                      xhr.response // the blob
-                    ], meme.img, {type: 'image/jpeg', lastModified: Date.now()})
-                  ],
-                })
-                  .then(function() {
-                    document.getElementById('output').innerHTML = 'Share was successful.';
-                  })
-                  .catch(function(err) {
-                    console.log(err)
-                    document.getElementById('output').innerHTML = 'a' + JSON.stringify(err);
-                  });
-
-              } else {
-                document.getElementById('output').innerHTML = 'Your system doesn\'t support sharing files';
-              }
-            }
-
+            navigator.share({
+              title: '',
+              text: '',
+              // files: [new File(['content'], 'sample1.txt', { type: 'text/plain' })],
+              files: [
+                new File([
+                  xhr.response // the blob
+                ], meme.img, {type: 'image/jpeg', lastModified: Date.now()})
+              ],
+            })
+              .then(function() {
+              })
+              .catch(function(err) {
+                console.log(err)
+              });
           } else {
             console.log('Loading error:' + xhr.statusText);
           }

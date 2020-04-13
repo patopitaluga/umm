@@ -1,4 +1,9 @@
+import memeitem from '../vc-meme-item/vc-meme-item.vue';
+
 export default {
+  components: {
+    memeitem,
+  },
   props: {
     vpMemeList: {
       required: true,
@@ -11,7 +16,7 @@ export default {
   },
   data: function() { // eslint-disable-line require-jsdoc
     return {
-      vdPlatformOs: window.platformOs,
+      vdLastActive: {},
     };
   },
   methods: {
@@ -22,6 +27,15 @@ export default {
      */
     mtdEditSelected: function(img) {
       window.location.href = 'edit?i=' + img;
+    },
+
+    /**
+     *
+     */
+    deactivateOthers: function(element, meme) {
+      this.$emit('addtofrequent', meme)
+      this.vdLastActive.vdActive = false;
+      this.vdLastActive = element;
     },
   },
 };
