@@ -67,7 +67,7 @@
 <div id="app">
   <div class="webapp-cont">
 
-    <button id="answer-example-share-button">Share file 4</button>
+    <button id="answer-example-share-button">Share file 5</button>
     <div id="output">
     </div>
 
@@ -95,6 +95,14 @@
           reject(err.message)
         };
       });
+    }
+
+    function FileListItem(a) {
+      a = [].slice.call(Array.isArray(a) ? a : arguments)
+      for (var c, b = c = a.length, d = !0; b-- && d;) d = a[b] instanceof File
+      if (!d) throw new TypeError("expected argument to FileList is File or array of File objects")
+      for (b = (new ClipboardEvent("")).clipboardData || new DataTransfer; c--;) b.items.add(a[c])
+      return b.files
     }
 
     loadXHR('memes/lester.jpg').then(function(theFblob) {
@@ -126,10 +134,7 @@
 
           // const files = [blobToFile(theFblob, 'lester.jpg')];
           navigator.share({
-            title: 'a',
-            text: 'b',
-            // file: files,
-            files: [blobToFile(theFblob, 'lester.jpg')],
+            file: new File(['content'], 'sample1.txt'),
           })
             .then(function() {
               document.getElementById('output').innerHTML = 'Share was successful.';
