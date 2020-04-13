@@ -15,7 +15,7 @@
       </div>
       <div
         v-if="vdActive"
-        style="display: flex;align-tems: center;justify-content: center;"
+        style="display: flex;align-tems: center;justify-content: center; flex-wrap: wrap;"
       >
         <a
           class="btn btn--download"
