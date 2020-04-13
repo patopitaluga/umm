@@ -180,13 +180,13 @@ module.exports =[
   {
     name: 'Conceited reaction',
     img: 'conceited-reaction.gif',
-    editable: true,
+    editable: false,
     category: '',
   },
   {
     name: 'El Diablo',
     img: 'el-diablo.gif',
-    editable: true,
+    editable: false,
     category: '',
   },
   {
@@ -216,7 +216,7 @@ module.exports =[
   {
     name: 'White guy blinking',
     img: 'white-guy-blinking.gif',
-    editable: true,
+    editable: false,
     category: '',
   },
   {
