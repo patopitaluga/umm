@@ -242,5 +242,12 @@ module.exports =[
     img: 'terraplanista-rex.jpg',
     editable: true,
     category: '',
-  }
+  },
+  {
+    name: 'Ugly Sonic The Movie',
+    img: 'ugly-sonic-the-movie.jpg',
+    editable: true,
+    category: '',
+    year: 2019,
+  },
 ];
