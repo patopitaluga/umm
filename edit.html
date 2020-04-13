@@ -226,12 +226,12 @@ new Vue({
           vueInstanceData.vdBoxes.forEach(function(eachBox) {
             if (eachBox.dragging) {
               var leftPos = (p.mouseX - eachBox.draggingOffsetX);
-              if (leftPos < 0) leftPos = 0;
-              if (leftPos > imgWidth - eachBox.width) leftPos = imgWidth - eachBox.width;
+              // if (leftPos < 0) leftPos = 0;
+              // if (leftPos > imgWidth - eachBox.width) leftPos = imgWidth - eachBox.width;
               eachBox.left = leftPos;
               var topPos = (p.mouseY - eachBox.draggingOffsetY);
-              if (topPos < 0) topPos = 0;
-              if (topPos > imgHeight - eachBox.height) topPos = imgHeight - eachBox.height;
+              // if (topPos < 0) topPos = 0;
+              // if (topPos > imgHeight - eachBox.height) topPos = imgHeight - eachBox.height;
               eachBox.top = topPos;
             }
 
