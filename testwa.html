@@ -67,7 +67,7 @@
 <div id="app">
   <div class="webapp-cont">
 
-    <button id="answer-example-share-button">Share file 5</button>
+    <button id="answer-example-share-button">Share file 6</button>
     <div id="output">
     </div>
 
@@ -134,13 +134,14 @@
 
           // const files = [blobToFile(theFblob, 'lester.jpg')];
           navigator.share({
-            file: new File(['content'], 'sample1.txt'),
+            file: [new File(['content'], 'sample1.txt')],
           })
             .then(function() {
               document.getElementById('output').innerHTML = 'Share was successful.';
             })
-            .catch(function(error) {
-              document.getElementById('output').innerHTML = JSON.stringify(error);
+            .catch(function(err) {
+              console.log(err)
+              document.getElementById('output').innerHTML = 'a' + JSON.stringify(err);
             });
 
         } else {
