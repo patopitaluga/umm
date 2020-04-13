@@ -30,7 +30,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'public/dist'),
     filename: '[name].js',
-    publicPath: '/dist/'
+    publicPath: '/umm/dist/'
   },
   resolve: {
     extensions: ['.js', '.css', '.scss'],

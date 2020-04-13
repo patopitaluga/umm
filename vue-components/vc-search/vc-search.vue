@@ -15,7 +15,8 @@
     <memelist
       v-if="vdInputSuggestionTerm !== ''"
       :vp-meme-list="vdMatchingMemes"
-      @memeclicked="mtdMemeClicked"
+      @downloadmeme="mtdTriggerDownloadMeme"
+      @sharememe="mtdTriggerShareMeme"
     >
     </memelist>
   </div>

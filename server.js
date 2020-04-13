@@ -3,8 +3,6 @@ const path = require('path');
 const express = require('express');
 const app = express();
 
-app.use(express.static('public'));
-
 if (process.argv[2] === 'dev') {
   process.env.NODE_ENV = 'development';
 
@@ -24,6 +22,16 @@ if (process.argv[2] === 'dev') {
 }
 
 require('./routes')(app);
+
+app.use('/umm/', express.static('public'));
+
+/**
+ * 404 page middleware must be set AFTER all routes, static (public) middleware AND webpack virtual files because only if any of these urls are served it must show 404 page.
+ */
+app.use((req, res) => {
+  res.status(404).send('Content not found');
+  // return res.status(404).render('page404.html', { });
+});
 
 app.listen((process.env.PORT || 3000), function () {
   console.log('App listening on port ' + (process.env.PORT || 3000));

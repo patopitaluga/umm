@@ -17,21 +17,40 @@
         v-html="eachMeme.name"
       >
       </div>
-      <a
-        class="search__suggestion__link"
-        :href="'memes/' + eachMeme.img"
-        download
-        @click.prevent="$emit('memeclicked', eachMeme)"
-      >
-        Download
-      </a>
-      <button
-        v-if="eachMeme.editable"
-        class="search__suggestion__btn"
-        @click="mtdEditSelected(eachMeme.img)"
-      >
-        Edit
-      </button>
+      <div style="display: flex;align-tems: center;justify-content: center;">
+        <a
+          class="btn btn--download"
+          :href="'memes/' + eachMeme.img"
+          download
+          title="Download"
+          @click.prevent="$emit('downloadmeme', eachMeme)"
+        >
+          Download
+        </a>
+        <button
+          v-if="
+            vdPlatformOs === 'ios' ||
+            vdPlatformOs === 'android'
+          "
+          class="btn btn--share"
+          :class="{
+            'btn--share--ios': vdPlatformOs === 'ios',
+            'btn--share--android': vdPlatformOs !== 'ios'
+          }"
+          title="Share"
+          @click.prevent="$emit('sharememe', eachMeme)"
+        >
+          Share
+        </button>
+        <button
+          v-if="eachMeme.editable"
+          class="btn btn--edit"
+          title="Edit"
+          @click="mtdEditSelected(eachMeme.img)"
+        >
+          Edit
+        </button>
+      </div>
     </li>
   </ul>
 </template>

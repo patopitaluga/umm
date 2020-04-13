@@ -92,7 +92,15 @@ module.exports = {
    *
    * @param {object} meme -
    */
-  mtdMemeClicked: function(meme) {
-    this.$emit('memeclicked', meme)
+  mtdTriggerDownloadMeme: function(meme) {
+    this.$emit('downloadmeme', meme)
+  },
+
+  /**
+   *
+   * @param {object} meme -
+   */
+  mtdTriggerShareMeme: function(meme) {
+    this.$emit('sharememe', meme)
   },
 };

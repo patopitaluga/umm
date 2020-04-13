@@ -1,0 +1,42 @@
+.search__results {
+
+  .btn {
+    background-color: #eee;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 12px auto;
+    display: block;
+    height: 35px;
+    overflow: hidden;
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-top: 5px;
+    padding: 0;
+    width: 35px;
+    text-indent: -500px;
+
+    &:first-child {
+      margin-left: auto;
+    }
+
+    &:last-child {
+      margin-right: auto;
+    }
+  }
+}
+
+.btn--download {
+  background-image: url('/umm/file-download.svg');
+}
+
+.btn--share--android {
+  background-image: url('/umm/share-alt.svg');
+}
+
+.btn--share--ios {
+  background-image: url('/umm/share-square.svg');
+}
+
+.btn--edit {
+  background-image: url('/umm/pencil-alt.svg');
+}
