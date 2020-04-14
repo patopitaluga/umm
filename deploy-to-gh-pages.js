@@ -50,9 +50,11 @@ rimraf('static-build', async () => {
   if (!fs.existsSync('static-build'))
     fs.mkdirSync('static-build');
 
-  await exec2('npm run build');
+  await exec2('npm run build')
+    .catch((_err) => console.log(_err));
 
-  await exec2('git clone -b gh-pages --single-branch https://github.com/patopitaluga/umm.git static-build');
+  await exec2('git clone -b gh-pages --single-branch https://github.com/patopitaluga/umm.git static-build')
+    .catch((_err) => console.log(_err));
 
   files = fs.readdirSync('public');
   files.forEach(function(file) {
@@ -64,15 +66,21 @@ rimraf('static-build', async () => {
   copyFolderRecursiveSync('public/icons', 'static-build');
   copyFolderRecursiveSync('public/memes', 'static-build');
 
-  await exec2('cd static-build');
-  await exec2('git add .');
-  await exec2('git commit -am "Update"');
-  await exec2('git push origin gh-pages');
-  await exec2('cd ..');
+  await exec2('cd static-build')
+    .catch((_err) => console.log(_err));
+  await exec2('git add .')
+    .catch((_err) => console.log(_err));
+  await exec2('git commit -am "Update"')
+    .catch((_err) => console.log(_err));
+  await exec2('git push origin gh-pages')
+    .catch((_err) => console.log(_err));
+  await exec2('cd ..')
+    .catch((_err) => console.log(_err));
 
   rimraf('static-build', async () => {
     console.log('gh-pages updated. See https://patopitaluga.github.io/umm/ ')
 
-    await exec2('open https://patopitaluga.github.io/umm/');
+    await exec2('open https://patopitaluga.github.io/umm/')
+      .catch((_err) => console.log(_err));
   });
 });
