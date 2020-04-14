@@ -271,4 +271,22 @@ module.exports =[
     category: '',
     year: 2017,
   },
+  {
+    name: 'Scorpion Matero Anime',
+    img: 'scorpion-matero-anime.jpg',
+    editable: true,
+    category: 'Scorpion Matero',
+  },
+  {
+    name: 'Scorpion Matero',
+    img: 'scorpion-matero-blank.jpg',
+    editable: true,
+    category: 'Scorpion Matero',
+  },
+  {
+    name: 'Mira Vos Che Scorpion Matero',
+    img: 'si-mira-vos-che-scorpion-matero.jpg',
+    editable: false,
+    category: 'Si Mirá vos Scorpion Matero',
+  },
 ];
