@@ -46,15 +46,16 @@ const copyFolderRecursiveSync = (source, target) => {
   }
 };
 
+console.log('Deleting folder static-build if exists. Close other programs if they\'re locked.')
 rimraf('static-build', async () => {
   if (!fs.existsSync('static-build'))
     fs.mkdirSync('static-build');
 
   await exec2('npm run build')
-    .catch((_err) => console.log(_err));
+    .catch((_err) => console.log(1, _err));
 
   await exec2('git clone -b gh-pages --single-branch https://github.com/patopitaluga/umm.git static-build')
-    .catch((_err) => console.log(_err));
+    .catch((_err) => console.log(2, _err));
 
   files = fs.readdirSync('public');
   files.forEach(function(file) {
@@ -67,20 +68,20 @@ rimraf('static-build', async () => {
   copyFolderRecursiveSync('public/memes', 'static-build');
 
   await exec2('cd static-build')
-    .catch((_err) => console.log(_err));
+    .catch((_err) => console.log(3, _err));
   await exec2('git add .')
-    .catch((_err) => console.log(_err));
+    .catch((_err) => console.log(4, _err));
   await exec2('git commit -am "Update"')
-    .catch((_err) => console.log(_err));
+    .catch((_err) => console.log(5, _err));
   await exec2('git push origin gh-pages')
-    .catch((_err) => console.log(_err));
+    .catch((_err) => console.log(6, _err));
   await exec2('cd ..')
-    .catch((_err) => console.log(_err));
+    .catch((_err) => console.log(7, _err));
 
   rimraf('static-build', async () => {
     console.log('gh-pages updated. See https://patopitaluga.github.io/umm/ ')
 
     await exec2('open https://patopitaluga.github.io/umm/')
-      .catch((_err) => console.log(_err));
+      .catch((_err) => console.log(9, _err));
   });
 });
