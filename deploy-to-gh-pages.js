@@ -7,7 +7,7 @@ const rimraf = require('rimraf');
 const exec2 = (commandString) => {
   return new Promise((resolve, reject) => {
     exec(commandString, (err, stdout, stderr) => {
-      if (err) { reject(reject); return; }
+      if (err) { reject(err); return; }
 
       console.log(stdout + stderr);
       resolve(stdout + stderr);
