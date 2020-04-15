@@ -57,7 +57,7 @@ module.exports = {
    */
   mtdSuggestSearchTermChanged: function() {
     const matches = [];
-    if (this.vdInputSuggestionTerm.length !== 0) {
+    if (this.vdInputSuggestionTerm.length > 2) {
       var vueInstanceData = this._data;
       this.vpMemeList.forEach(function(eachMeme) {
         if (

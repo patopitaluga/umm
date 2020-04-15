@@ -17,6 +17,12 @@
       :vp-meme-list="vdMatchingMemes"
     >
     </memelist>
+    <div
+      v-if="vdInputSuggestionTerm !== '' && vdMatchingMemes.length === 0"
+      style="font-size: 13px;"
+    >
+      There are no results for: <strong>{{ vdInputSuggestionTerm }}</strong>
+    </div>
   </div>
 </template>
 

@@ -22,6 +22,7 @@ form {
 }
 
 input[type='text'],
+input[type='number'],
 input[type='password'] {
   border: 1px #666 solid;
   box-sizing: border-box;
