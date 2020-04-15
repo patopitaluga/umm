@@ -20,6 +20,14 @@ npm run dev
 ```
 Will listen for changes and rebuild when necessary. No "hot" reload in the browser yet.
 
+### Add meme from terminal
+Copy the images that you want to add to the root folder of the project.
+
+Run the times it's necessary:
+```
+npm run addmeme
+```
+
 ### Build for production
 Build assets. Will create final assets js files in /public/dist.
 ```
