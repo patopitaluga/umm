@@ -294,5 +294,11 @@
     "img": "abuelo-simpson-ahi-esta.png",
     "editable": true,
     "category": "simpsons"
+  },
+  {
+    "name": "Schrodinger",
+    "img": "schrodinger.jpg",
+    "editable": false,
+    "category": "Drake"
   }
 ]
