@@ -2,7 +2,7 @@ import search from '../vue-components/vc-search/vc-search.vue';
 import memelist from '../vue-components/vc-meme-list/vc-meme-list.vue';
 var platform = require('platform');
 
-var memes = require('../memes.js');
+var memes = require('../memes.json');
 
 /**
  * To read GET variables php style (kinda). Remember that this is a function, so it's not used $_GET[] but $_GET().

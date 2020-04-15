@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "addmeme": "node addmeme",
     "build": "node node_modules/webpack-cli/bin/cli.js -p",
     "dev": "node node_modules/nodemon/bin/nodemon.js server dev",
     "webpack": "node node_modules/webpack-cli/bin/cli.js -p"
@@ -20,6 +21,7 @@
     "extract-text-webpack-plugin": "^4.0.0-alpha.0",
     "node-sass": "^4.13.1",
     "nodemon": "^2.0.3",
+    "prompts": "^2.3.2",
     "sass-loader": "^8.0.2",
     "vue-loader": "^15.7.1",
     "vue-template-compiler": "^2.6.10",
