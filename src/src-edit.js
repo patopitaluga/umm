@@ -175,6 +175,8 @@ new Vue({
             resizeHandle = checkIfMightResize(evt, eachBox);
             if (resizeHandle > -1)
               mightResize = index;
+          });
+          vueInstanceData.vdBoxes.forEach(function(eachBox, index) {
             if (
               mightResize === -1 &&
               mouseX > eachBox.left &&
@@ -185,6 +187,7 @@ new Vue({
               mightDrag = index;
             }
           });
+
           vueInstanceData.vdMightResize = mightResize;
           vueInstanceData.vdMightResizeCorner = resizeHandle;
           vueInstanceData.vdMightDrag = mightDrag;
@@ -236,6 +239,7 @@ new Vue({
 
         document.getElementById('download-button').onclick = function() {
           var filePart = feImagePath.split('/');
+          updateCanvas(null, null, true);
           p.saveCanvas(filePart[filePart.length - 1]);
         };
       }, 'container');
@@ -246,7 +250,7 @@ new Vue({
     /**
      *
      */
-    updateCanvas: function(evt, isMouse) {
+    updateCanvas: function(evt, isMouse, renderOnlyTexts) {
       let mouseX;
       let mouseY;
       if (evt) {
@@ -258,6 +262,27 @@ new Vue({
 
       if (window.bg)
         window.p.image(window.bg, 0, 0, imgWidth, imgHeight);
+
+      window.p.textAlign(window.p.CENTER);
+
+      let leftOffset = 4;
+      let topOffset = 11;
+
+      window.p.stroke(0);
+      window.p.strokeWeight(6);
+      window.p.fill(255, 255, 255);
+
+      const theTexts = this.vdTexts;
+      const theFontsizes = this.vdFontSizes;
+      this.vdBoxes.forEach(function(eachBox, i) {
+        //let topOffset = eachBox.height / 2 + 18;
+        window.p.textSize(Number(theFontsizes[i + 1]));
+        window.p.text(theTexts[i + 1].toUpperCase(),
+          eachBox.left + leftOffset, eachBox.top + topOffset, eachBox.width, eachBox.height
+        );
+      });
+
+      if (renderOnlyTexts) return;
 
       if (this.vdDragging) {
         var leftPos = (mouseX - this.draggingOffsetX);
@@ -380,26 +405,6 @@ new Vue({
       }
       if (!this.vdDragging)
         this.vdMightDrag = mightDrag;
-
-      // window.p.filter(window.p.BLUR);
-      window.p.textAlign(window.p.CENTER);
-
-      let leftOffset = 4;
-      let topOffset = 11;
-
-      window.p.stroke(0);
-      window.p.strokeWeight(6);
-      window.p.fill(255, 255, 255);
-
-      const theTexts = this.vdTexts;
-      const theFontsizes = this.vdFontSizes;
-      this.vdBoxes.forEach(function(eachBox, i) {
-        //let topOffset = eachBox.height / 2 + 18;
-        window.p.textSize(Number(theFontsizes[i + 1]));
-        window.p.text(theTexts[i + 1].toUpperCase(),
-          eachBox.left + leftOffset, eachBox.top + topOffset, eachBox.width, eachBox.height
-        );
-      });
     },
 
     /**
@@ -418,6 +423,7 @@ new Vue({
      */
     share: function() {
       if (!navigator.share) return;
+      this.updateCanvas(null, null, true);
 
       var canvas = document.querySelector('#container canvas');
 
