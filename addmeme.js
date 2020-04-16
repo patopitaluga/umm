@@ -23,6 +23,7 @@ const slugify = (str) => {
 fs.readdir('./', (_err, _files) => {
   let newMemeFound = false;
   _files.forEach(async (_eachFile) => {
+    if (newMemeFound) return;
     if (fs.lstatSync(_eachFile).isDirectory()) return;
 
     let extension = _eachFile.slice(-4);
