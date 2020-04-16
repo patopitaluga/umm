@@ -2,8 +2,27 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<title>Ultimate Meme Manager</title>
+<title>Edit meme - Ultimate Meme Manager</title>
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, viewport-fit=cover"/>
+
+<link rel="apple-touch-icon" sizes="57x57" href="icons/apple-icon-57x57.png"/>
+<link rel="apple-touch-icon" sizes="60x60" href="icons/apple-icon-60x60.png"/>
+<link rel="apple-touch-icon" sizes="72x72" href="icons/apple-icon-72x72.png"/>
+<link rel="apple-touch-icon" sizes="76x76" href="icons/apple-icon-76x76.png"/>
+<link rel="apple-touch-icon" sizes="114x114" href="icons/apple-icon-114x114.png"/>
+<link rel="apple-touch-icon" sizes="120x120" href="icons/apple-icon-120x120.png"/>
+<link rel="apple-touch-icon" sizes="144x144" href="icons/apple-icon-144x144.png"/>
+<link rel="apple-touch-icon" sizes="152x152" href="icons/apple-icon-152x152.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-icon-180x180.png"/>
+<link rel="icon" type="image/png" sizes="192x192"  href="icons/android-icon-192x192.png"/>
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png"/>
+<link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96x96.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png"/>
+<link rel="manifest" href="./manifest.json"/>
+<meta name="msapplication-TileColor" content="#ffffff"/>
+<meta name="msapplication-TileImage" content="./ms-icon-144x144.png"/>
+<meta name="theme-color" content="#ffffff"/>
+
 <style>
   @font-face {
     font-family: 'Roboto';
@@ -16,84 +35,8 @@
   [v-cloak] {
     display: none !important
   }
-
-  #img {
-    display: block;
-    visibility: hidden;
-    width: 100%;
-  }
-  .container {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .container.container--might-drag {
-    cursor: move; /* fallback if grab cursor is unsupported */
-    cursor: grab;
-    cursor: -moz-grab;
-    cursor: -webkit-grab;
-  }
-
-  .container.container--might-drag.container--dragging {
-    cursor: grabbing;
-    cursor: -moz-grabbing;
-    cursor: -webkit-grabbing;
-  }
-  .container.container--resize-1 {
-    cursor: nw-resize;
-  }
-
-  .container.container--resize-2 {
-    cursor: n-resize;
-  }
-
-  .container.container--resize-3 {
-    cursor: ne-resize;
-  }
-
-  .container.container--resize-4 {
-    cursor: w-resize;
-  }
-
-  .container.container--resize-5 {
-    cursor: e-resize;
-  }
-
-  .container.container--resize-6 {
-    cursor: sw-resize;
-  }
-
-  .container.container--resize-7 {
-    cursor: s-resize;
-  }
-
-  .container.container--resize-8 {
-    cursor: se-resize;
-  }
-
-  #container div {
-    background: transparent;
-    box-sizing: border-box;
-    border: 1px dashed #666;
-    position: absolute;
-    left: 0;
-    margin: 0 auto;
-    top: 0;
-  }
-
-  #container input:focus {
-    outline: none;
-  }
-
-  .meme-text-input {
-    border-radius: 5px;
-    margin: 10px 0 0;
-  }
 </style>
-<link rel="stylesheet" href="style.css"/>
+<link rel="stylesheet" href="home-page.css"/>
 </head>
 <body>
 <div id="app">
@@ -103,75 +46,16 @@
       style="display: block;margin-top: 10px;"
     >Back</a>
     <h1>Ultimate Meme Manager</h1>
-    <h2>Add text</h2>
-
-    <div
-      v-for="r in vdBoxes.length"
-      :key="r"
-      v-cloak
-      style="display: flex;"
+    <memeeditor
+      :vp-meme="vdCurrentMeme"
     >
-      <input
-        :placeholder="'Text ' + r"
-        class="meme-text-input"
-        type="text"
-        v-model="vdTexts[r]"
-        @keyup="updateCanvas"
-      />
-      <input
-        class="meme-text-input"
-        type="number"
-        v-model="vdFontSizes[r]"
-        @change="updateCanvas"
-        @keyup="updateCanvas"
-        style="width: 60px;margin-left: 5px;"
-      />
-    </div>
-    <div style="display: flex;width: 100%;padding: 8px 0 5px;">
-      <button
-        class="btn"
-        @click="mtdAddText"
-        style="margin: auto 0 auto auto;"
-      >Add text</button>
-    </div>
-    <div
-      v-cloak
-      id="container"
-      class="container"
-      :class="{
-        'container--might-drag': vdMightDrag > -1,
-        'container--dragging': vdDragging,
-        'container--resize-1': vdMightResizeCorner === 1,
-        'container--resize-2': vdMightResizeCorner === 2,
-        'container--resize-3': vdMightResizeCorner === 3,
-        'container--resize-4': vdMightResizeCorner === 4,
-        'container--resize-5': vdMightResizeCorner === 5,
-        'container--resize-6': vdMightResizeCorner === 6,
-        'container--resize-7': vdMightResizeCorner === 7,
-        'container--resize-8': vdMightResizeCorner === 8,
-      }"
-      style="margin-top: 8px;"
-    >
-      <img id="img"/>
-    </div>
-    <button
-      class="btn"
-      id="download-button"
-      style="margin: 10px auto;"
-    >Download</button>
-    <button
-      v-if="
-        (vdPlatformOs === 'ios' && vdPlatformName !== 'safari') ||
-        vdPlatformOs === 'android'
-      "
-      class="btn"
-      @click="share"
-      style="margin: 10px auto;"
-    >Share</button>
+    </memeeditor>
   </div>
 </div>
+
+<link rel="stylesheet" href="edit-page.css"/>
 <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-<script src="dist/edit.js?r=6"></script>
+<script src="dist/edit.js?r=7"></script>
 </body>
 </html>
