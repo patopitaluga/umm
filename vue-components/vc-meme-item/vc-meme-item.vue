@@ -33,8 +33,9 @@
         </a>
         <button
           v-if="
-            (vdPlatformOs === 'ios' && vdPlatformName !== 'safari') ||
-            vdPlatformOs === 'android'
+            !vdSharing &&
+            ((vdPlatformOs === 'ios' && vdPlatformName !== 'safari') ||
+            vdPlatformOs === 'android')
           "
           class="btn btn--share"
           :class="{

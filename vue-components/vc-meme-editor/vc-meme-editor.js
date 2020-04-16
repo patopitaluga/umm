@@ -43,6 +43,7 @@ export default {
       vdPlatformOs: window.platformOs,
       vdPlatformName: window.platformName,
       vdMovingMouse: 0,
+      vdSharing: false,
     };
   },
   mounted: require('./vc-meme-editor__mounted'),

@@ -118,7 +118,7 @@ module.exports = function() {
 
       document.getElementById('download-button').onclick = function() {
         updateCanvas(null, null, true);
-        p.saveCanvas(filePart[filePart.length - 1]);
+        p.saveCanvas(thismemeImg);
       };
     }, 'container');
   }

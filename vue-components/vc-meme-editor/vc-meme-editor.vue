@@ -58,11 +58,12 @@
     >Download</button>
     <button
       v-if="
-        (vdPlatformOs === 'ios' && vdPlatformName !== 'safari') ||
-        vdPlatformOs === 'android'
+        !vdSharing &&
+        ((vdPlatformOs === 'ios' && vdPlatformName !== 'safari') ||
+        vdPlatformOs === 'android')
       "
       class="btn"
-      @click="share"
+      @click="mtdShare"
       style="margin: 10px auto;"
     >Share</button>
   </div>

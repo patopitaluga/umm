@@ -176,28 +176,35 @@ module.exports = {
   /**
   *
   */
-  share: function() {
+  mtdShare: function() {
     if (!navigator.share) return;
     this.updateCanvas(null, null, true);
 
-    var canvas = document.querySelector('#container canvas');
+    this.vdSharing = true;
 
-    canvas.toBlob(function(blob) {
-      navigator.share({
-        title: '',
-        text: '',
-        // files: [new File(['content'], 'sample1.txt', { type: 'text/plain' })],
-        files: [
-          new File([
-            blob // the blob
-          ], this.vpMeme.img, { type: 'image/jpeg', lastModified: Date.now() })
-        ],
-      })
-        .then(function() {
+    const memeImg = this.vpMeme.img;
+    const vueInstanceData = this._data;
+    this.$nextTick(function() {
+      var canvas = document.querySelector('#container canvas');
+
+      canvas.toBlob(function(blob) {
+        navigator.share({
+          title: '',
+          text: '',
+          // files: [new File(['content'], 'sample1.txt', { type: 'text/plain' })],
+          files: [
+            new File([
+              blob // the blob
+            ], memeImg, { type: 'image/jpeg', lastModified: Date.now() })
+          ],
         })
-        .catch(function(err) {
-          console.log(err)
-        });
+          .then(function() {
+            vueInstanceData.vdSharing = false;
+          })
+          .catch(function(err) {
+            console.log(err)
+          });
+      });
     });
   },
 };

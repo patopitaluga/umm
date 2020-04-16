@@ -10,6 +10,7 @@ export default {
       vdPlatformOs: window.platformOs,
       vdPlatformName: window.platformName,
       vdActive: false,
+      vdSharing: false,
     };
   },
   mounted: function() {
@@ -58,8 +59,10 @@ export default {
      */
     triggerShareMeme: function() {
       if (!navigator.share) return;
+      this.vdSharing = true;
 
-      let meme = this.vpMeme;
+      const meme = this.vpMeme;
+      const vueInstanceData = this._data;
       try {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', 'memes/' + meme.img);
@@ -80,6 +83,7 @@ export default {
               ],
             })
               .then(function() {
+                vueInstanceData.vdSharing = true;
               })
               .catch(function(err) {
                 console.log(err)
