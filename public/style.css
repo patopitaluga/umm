@@ -3,6 +3,14 @@ body {
   margin: 0;
   padding: 0;
 }
+body.body--prevent-scroll {
+  box-sizing: border-box;
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100); /* sass-lint:disable-line no-duplicate-properties */
+  overflow-y: hidden;
+  position: fixed;
+  width: 100%;
+}
 
 form {
   display: block;

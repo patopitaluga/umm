@@ -1,5 +1,21 @@
 var platform = require('platform');
 
+/**
+ * Since 100vh in mobile doesn't include brower bars this hack is helpful. See https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
+ */
+function realVisualHeight() {
+  let vh = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+  vh = vh * 0.01;
+  document.documentElement.style.setProperty('--vh', vh + 'px');
+}
+realVisualHeight();
+window.addEventListener('resize', function() {
+  realVisualHeight();
+});
+window.addEventListener('orientationchange', function() {
+  realVisualHeight();
+});
+
 // alternative feImagePath = '$ { tplImagePath }';
 
 /**
@@ -153,23 +169,39 @@ new Vue({
 
           let resizeHandle = -1;
           let mightResize = -1;
+          let mightDrag = -1;
           vueInstanceData.vdBoxes.forEach(function(eachBox, index) {
             if (resizeHandle !== -1) return;
             resizeHandle = checkIfMightResize(evt, eachBox);
             if (resizeHandle > -1)
               mightResize = index;
+            if (
+              mightResize === -1 &&
+              mouseX > eachBox.left &&
+              mouseX < eachBox.left + eachBox.width &&
+              mouseY > eachBox.top &&
+              mouseY < eachBox.top + eachBox.height
+            ) {
+              mightDrag = index;
+            }
           });
           vueInstanceData.vdMightResize = mightResize;
           vueInstanceData.vdMightResizeCorner = resizeHandle;
+          vueInstanceData.vdMightDrag = mightDrag;
 
-          if (vueInstanceData.vdMightDrag > -1) {
-            vueInstanceData.draggingOffsetX = mouseX - vueInstanceData.vdBoxes[vueInstanceData.vdMightDrag].left;
-            vueInstanceData.draggingOffsetY = mouseY - vueInstanceData.vdBoxes[vueInstanceData.vdMightDrag].top;
+          if (mightDrag > -1) {
+            document.body.classList.add('body--prevent-scroll');
+
+            vueInstanceData.draggingOffsetX = mouseX - vueInstanceData.vdBoxes[mightDrag].left;
+            vueInstanceData.draggingOffsetY = mouseY - vueInstanceData.vdBoxes[mightDrag].top;
             vueInstanceData.vdDragging = true;
+            return;
           }
-          if (vueInstanceData.vdMightResize > -1) {
-            vueInstanceData.vdInitialResizeWidth = vueInstanceData.vdBoxes[vueInstanceData.vdMightResize].width,
-            vueInstanceData.vdInitialResizeHeight = vueInstanceData.vdBoxes[vueInstanceData.vdMightResize].height,
+          if (mightResize > -1) {
+            document.body.classList.add('body--prevent-scroll');
+
+            vueInstanceData.vdInitialResizeWidth = vueInstanceData.vdBoxes[mightResize].width,
+            vueInstanceData.vdInitialResizeHeight = vueInstanceData.vdBoxes[mightResize].height,
             vueInstanceData.vdInitialResizePosX = mouseX,
             vueInstanceData.vdInitialResizePosY = mouseY,
             vueInstanceData.vdResizing = true;
@@ -181,6 +213,7 @@ new Vue({
           vueInstanceData.vdResizing = false;
           vueInstanceData.vdMightResize = -1;
           vueInstanceData.vdMightResizeCorner = -1;
+          document.body.classList.remove('body--prevent-scroll');
         }
 
         p.draw = function() {
