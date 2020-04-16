@@ -535,5 +535,17 @@
     "img": "woman-sad-but-really-smiling.jpg",
     "editable": true,
     "category": ""
+  },
+  {
+    "name": "Philosoraptor",
+    "img": "philosoraptor.jpg",
+    "editable": true,
+    "category": "Philosoraptor"
+  },
+  {
+    "name": "Elegant Philosoraptor",
+    "img": "elegant-philosoraptor.jpg",
+    "editable": true,
+    "category": "Philosoraptor"
   }
 ]
