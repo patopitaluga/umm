@@ -21,6 +21,58 @@ var $_GET = function(parameterName) {
   return result;
 };
 
+const littleSquareSize = 16;
+const checkIfMightResize = function(evt, eachBox) {
+  let mouseX;
+  let mouseY;
+  if (evt.touches) { mouseX = evt.touches[0].pageX; mouseY = evt.touches[0].pageY; } // touch
+  if (evt.pageX) { mouseX = evt.pageX; mouseY = evt.pageY; } // mouse
+  mouseX -= document.getElementById('container').offsetLeft;
+  mouseY -= document.getElementById('container').offsetTop;
+
+  if (
+    mouseX > eachBox.left - (littleSquareSize / 2) && mouseX < eachBox.left + (littleSquareSize / 2) &&
+    mouseY > eachBox.top - (littleSquareSize / 2) && mouseY < eachBox.top + (littleSquareSize / 2)
+  )
+    return 1;
+  if (
+    mouseX > eachBox.left + eachBox.width / 2 - (littleSquareSize / 2) && mouseX < eachBox.left + eachBox.width / 2 + (littleSquareSize / 2) &&
+    mouseY > eachBox.top - (littleSquareSize / 2) && mouseY < eachBox.top + (littleSquareSize / 2)
+  )
+    return 2;
+  if (
+    mouseX > eachBox.left + eachBox.width - (littleSquareSize / 2) && mouseX < eachBox.left + eachBox.width + (littleSquareSize / 2) &&
+    mouseY > eachBox.top - (littleSquareSize / 2) && mouseY < eachBox.top + (littleSquareSize / 2)
+  )
+    return 3;
+  if (
+    mouseX > eachBox.left - (littleSquareSize / 2) && mouseX < eachBox.left + (littleSquareSize / 2) &&
+    mouseY > eachBox.top + eachBox.height / 2 - (littleSquareSize / 2) && mouseY < eachBox.top + eachBox.height / 2 + (littleSquareSize / 2)
+  )
+    return 4;
+  if (
+    mouseX > eachBox.left + eachBox.width - (littleSquareSize / 2) && mouseX < eachBox.left + eachBox.width + (littleSquareSize / 2) &&
+    mouseY > eachBox.top + eachBox.height / 2 - (littleSquareSize / 2) && mouseY < eachBox.top + eachBox.height / 2 + (littleSquareSize / 2)
+  )
+    return 5;
+  if (
+    mouseX > eachBox.left - (littleSquareSize / 2) && mouseX < eachBox.left + (littleSquareSize / 2) &&
+    mouseY > eachBox.top + eachBox.height - (littleSquareSize / 2) && mouseY < eachBox.top + eachBox.height + (littleSquareSize / 2)
+  )
+    return 6;
+  if (
+    mouseX > eachBox.left + eachBox.width / 2 - (littleSquareSize / 2) && mouseX < eachBox.left + eachBox.width / 2 + (littleSquareSize / 2) &&
+    mouseY > eachBox.top + eachBox.height - (littleSquareSize / 2) && mouseY < eachBox.top + eachBox.height + (littleSquareSize / 2)
+  )
+    return 7;
+  if (
+    mouseX > eachBox.left + eachBox.width - (littleSquareSize / 2) && mouseX < eachBox.left + eachBox.width + (littleSquareSize / 2) &&
+    mouseY > eachBox.top + eachBox.height - (littleSquareSize / 2) && mouseY < eachBox.top + eachBox.height + (littleSquareSize / 2)
+  )
+    return 8;
+  return -1;
+};
+
 window.platformOs = $_GET('emu') || platform.os.family.toLowerCase();
 window.platformName = platform.name.toLowerCase();
 let fileName = $_GET('i');
@@ -90,30 +142,59 @@ new Vue({
           });
           p.noLoop();
         }
-        p.mousePressed = function() {
+
+        const mPressed = function(evt) {
+          let mouseX;
+          let mouseY;
+          if (evt.touches) { mouseX = evt.touches[0].pageX; mouseY = evt.touches[0].pageY; } // touch
+          if (evt.pageX) { mouseX = evt.pageX; mouseY = evt.pageY; } // mouse
+          mouseX -= document.getElementById('container').offsetLeft;
+          mouseY -= document.getElementById('container').offsetTop;
+
+          let resizeHandle = -1;
+          let mightResize = -1;
+          vueInstanceData.vdBoxes.forEach(function(eachBox, index) {
+            if (resizeHandle !== -1) return;
+            resizeHandle = checkIfMightResize(evt, eachBox);
+            if (resizeHandle > -1)
+              mightResize = index;
+          });
+          vueInstanceData.vdMightResize = mightResize;
+          vueInstanceData.vdMightResizeCorner = resizeHandle;
+
           if (vueInstanceData.vdMightDrag > -1) {
-            vueInstanceData.draggingOffsetX = p.mouseX - vueInstanceData.vdBoxes[vueInstanceData.vdMightDrag].left;
-            vueInstanceData.draggingOffsetY = p.mouseY - vueInstanceData.vdBoxes[vueInstanceData.vdMightDrag].top;
+            vueInstanceData.draggingOffsetX = mouseX - vueInstanceData.vdBoxes[vueInstanceData.vdMightDrag].left;
+            vueInstanceData.draggingOffsetY = mouseY - vueInstanceData.vdBoxes[vueInstanceData.vdMightDrag].top;
             vueInstanceData.vdDragging = true;
           }
           if (vueInstanceData.vdMightResize > -1) {
             vueInstanceData.vdInitialResizeWidth = vueInstanceData.vdBoxes[vueInstanceData.vdMightResize].width,
             vueInstanceData.vdInitialResizeHeight = vueInstanceData.vdBoxes[vueInstanceData.vdMightResize].height,
-            vueInstanceData.vdInitialResizePosX = p.mouseX,
-            vueInstanceData.vdInitialResizePosY = p.mouseY,
+            vueInstanceData.vdInitialResizePosX = mouseX,
+            vueInstanceData.vdInitialResizePosY = mouseY,
             vueInstanceData.vdResizing = true;
           }
         }
-        p.mouseReleased = function() {
+
+        const mReleased = function() {
           vueInstanceData.vdDragging = false;
           vueInstanceData.vdResizing = false;
+          vueInstanceData.vdMightResize = -1;
+          vueInstanceData.vdMightResizeCorner = -1;
         }
 
         p.draw = function() {
           p.image(window.bg, 0, 0, imgWidth, imgHeight);
 
+          document.addEventListener('touchstart', mPressed, false);
           document.addEventListener('touchmove', updateCanvas, false);
-          document.addEventListener('mousemove', updateCanvas, false);
+          document.addEventListener('touchend', mReleased, false);
+
+          document.addEventListener('mousedown', mPressed, false);
+          document.addEventListener('mousemove', function(evt) { updateCanvas(evt, true); }, false);
+          document.addEventListener('mouseup', mReleased, false);
+
+          updateCanvas();
         }
 
         //p.mouseMoved = function() {
@@ -129,15 +210,28 @@ new Vue({
     img.src = feImagePath;
   },
   methods: {
-    updateCanvas: function() {
-      window.p.image(window.bg, 0, 0, imgWidth, imgHeight);
+    /**
+     *
+     */
+    updateCanvas: function(evt, isMouse) {
+      let mouseX;
+      let mouseY;
+      if (evt) {
+        if (evt.touches) { mouseX = evt.touches[0].pageX; mouseY = evt.touches[0].pageY; } // touch
+        if (evt.pageX) { mouseX = evt.pageX; mouseY = evt.pageY; } // mouse
+        mouseX -= document.getElementById('container').offsetLeft;
+        mouseY -= document.getElementById('container').offsetTop;
+      }
+
+      if (window.bg)
+        window.p.image(window.bg, 0, 0, imgWidth, imgHeight);
 
       if (this.vdDragging) {
-        var leftPos = (window.p.mouseX - this.draggingOffsetX);
+        var leftPos = (mouseX - this.draggingOffsetX);
         if (leftPos < 0) leftPos = 0;
         if (leftPos > imgWidth - this.vdBoxes[this.vdMightDrag].width) leftPos = imgWidth - this.vdBoxes[this.vdMightDrag].width;
         this.vdBoxes[this.vdMightDrag].left = leftPos;
-        var topPos = (window.p.mouseY - this.draggingOffsetY);
+        var topPos = (mouseY - this.draggingOffsetY);
         if (topPos < 0) topPos = 0;
         if (topPos > imgHeight - this.vdBoxes[this.vdMightDrag].height) topPos = imgHeight - this.vdBoxes[this.vdMightDrag].height;
         this.vdBoxes[this.vdMightDrag].top = topPos;
@@ -154,8 +248,8 @@ new Vue({
           this.vdMightResizeCorner === 6
         ) {
           newWidth =
-            this.vdInitialResizeWidth + (this.vdInitialResizePosX - window.p.mouseX);
-          newLeft = window.p.mouseX;
+            this.vdInitialResizeWidth + (this.vdInitialResizePosX - mouseX);
+          newLeft = mouseX;
         }
 
         if (
@@ -164,8 +258,8 @@ new Vue({
           this.vdMightResizeCorner === 3
         ) {
           newHeight =
-            this.vdInitialResizeHeight + (this.vdInitialResizePosY - window.p.mouseY);
-          newTop = window.p.mouseY;
+            this.vdInitialResizeHeight + (this.vdInitialResizePosY - mouseY);
+          newTop = mouseY;
         }
 
         if (
@@ -174,13 +268,13 @@ new Vue({
           this.vdMightResizeCorner === 8
         )
           newWidth =
-            this.vdInitialResizeWidth + (window.p.mouseX - this.vdInitialResizePosX);
+            this.vdInitialResizeWidth + (mouseX - this.vdInitialResizePosX);
         if (
           this.vdMightResizeCorner === 6 ||
           this.vdMightResizeCorner === 7 ||
           this.vdMightResizeCorner === 8
         )
-          newHeight = this.vdInitialResizeHeight + (window.p.mouseY - this.vdInitialResizePosY);
+          newHeight = this.vdInitialResizeHeight + (mouseY - this.vdInitialResizePosY);
 
         if (newLeft <= 0) { newLeft = 0; newWidth = this.vdBoxes[this.vdMightResize].width; }
         if (newLeft + newWidth > imgWidth) newWidth = imgWidth - newLeft;
@@ -195,17 +289,20 @@ new Vue({
         this.vdBoxes[this.vdMightResize].width = newWidth;
       }
 
-      window.p.strokeWeight(1)
+      if (window.p)
+        window.p.strokeWeight(1)
 
       let mightDrag = -1;
       let mightResize = -1;
       let resizeHandle = -1;
       const isDragging = this.vdDragging;
       const isResizing = this.vdResizing;
+
       if (
+        true ||
         (
-          window.p.mouseX > 0 && window.p.mouseX < imgWidth &&
-          window.p.mouseY > 0 && window.p.mouseY < imgHeight
+          mouseX > 0 && mouseX < imgWidth &&
+          mouseY > 0 && mouseY < imgHeight
         ) || isResizing || isDragging
       )
         this.vdBoxes.forEach(function(eachBox, index) {
@@ -214,7 +311,7 @@ new Vue({
 
           window.p.rect(eachBox.left, eachBox.top, eachBox.width, eachBox.height);
 
-          if (!isDragging) {
+          if (!isDragging || true) {
             window.p.stroke(0)
             window.p.fill(255, 255, 255)
             window.p.rect(eachBox.left - 6, eachBox.top - 6, 12, 12);
@@ -226,82 +323,23 @@ new Vue({
             window.p.rect(eachBox.left + eachBox.width / 2 - 6, eachBox.top + eachBox.height - 6, 12, 12);
             window.p.rect(eachBox.left + eachBox.width - 6, eachBox.top + eachBox.height - 6, 12, 12);
 
-            if (!isResizing) {
-              if (
-                mightResize === -1 &&
-                window.p.mouseX > eachBox.left - 6 && window.p.mouseX < eachBox.left - 6 + 12 &&
-                window.p.mouseY > eachBox.top - 6 && window.p.mouseY < eachBox.top - 6 + 12
-              ) {
+            if (isMouse && !isResizing && mightResize === -1) {
+              resizeHandle = checkIfMightResize(evt, eachBox);
+              if (resizeHandle > -1)
                 mightResize = index;
-                resizeHandle = 1;
-              }
-              if (
-                mightResize === -1 &&
-                window.p.mouseX > eachBox.left + eachBox.width / 2 - 6 && window.p.mouseX < eachBox.left + eachBox.width / 2 - 6 + 12 &&
-                window.p.mouseY > eachBox.top - 6 && window.p.mouseY < eachBox.top - 6 + 12
-              ) {
-                mightResize = index;
-                resizeHandle = 2;
-              }
-              if (
-                mightResize === -1 &&
-                window.p.mouseX > eachBox.left + eachBox.width - 6 && window.p.mouseX < eachBox.left + eachBox.width - 6 + 12 &&
-                window.p.mouseY > eachBox.top - 6 && window.p.mouseY < eachBox.top - 6 + 12
-              ) {
-                mightResize = index;
-                resizeHandle = 3;
-              }
-              if (
-                mightResize === -1 &&
-                window.p.mouseX > eachBox.left - 6 && window.p.mouseX < eachBox.left - 6 + 12 &&
-                window.p.mouseY > eachBox.top + eachBox.height / 2 - 6 && window.p.mouseY < eachBox.top + eachBox.height / 2 - 6 + 12
-              ) {
-                mightResize = index;
-                resizeHandle = 4;
-              }
-              if (
-                mightResize === -1 &&
-                window.p.mouseX > eachBox.left + eachBox.width - 6 && window.p.mouseX < eachBox.left + eachBox.width - 6 + 12 &&
-                window.p.mouseY > eachBox.top + eachBox.height / 2 - 6 && window.p.mouseY < eachBox.top + eachBox.height / 2 - 6 + 12
-              ) {
-                mightResize = index;
-                resizeHandle = 5;
-              }
-              if (
-                mightResize === -1 &&
-                window.p.mouseX > eachBox.left - 6 && window.p.mouseX < eachBox.left - 6 + 12 &&
-                window.p.mouseY > eachBox.top + eachBox.height - 6 && window.p.mouseY < eachBox.top + eachBox.height - 6 + 12
-              ) {
-                mightResize = index;
-                resizeHandle = 6;
-              }
-              if (
-                mightResize === -1 &&
-                window.p.mouseX > eachBox.left + eachBox.width / 2 - 6 && window.p.mouseX < eachBox.left + eachBox.width / 2 - 6 + 12 &&
-                window.p.mouseY > eachBox.top + eachBox.height - 6 && window.p.mouseY < eachBox.top + eachBox.height - 6 + 12
-              ) {
-                mightResize = index;
-                resizeHandle = 7;
-              }
-              if (
-                mightResize === -1 &&
-                window.p.mouseX > eachBox.left + eachBox.width - 6 && window.p.mouseX < eachBox.left + eachBox.width - 6 + 12 &&
-                window.p.mouseY > eachBox.top + eachBox.height - 6 && window.p.mouseY < eachBox.top + eachBox.height - 6 + 12
-              ) {
-                mightResize = index;
-                resizeHandle = 8;
-              }
             }
           }
 
           if (
+            isMouse &&
             mightResize === -1 &&
-            window.p.mouseX > eachBox.left &&
-            window.p.mouseX < eachBox.left + eachBox.width &&
-            window.p.mouseY > eachBox.top &&
-            window.p.mouseY < eachBox.top + eachBox.height
-          )
+            mouseX > eachBox.left &&
+            mouseX < eachBox.left + eachBox.width &&
+            mouseY > eachBox.top &&
+            mouseY < eachBox.top + eachBox.height
+          ) {
             mightDrag = index;
+          }
         });
       if (!this.vdResizing) {
         this.vdMightResize = mightResize;
