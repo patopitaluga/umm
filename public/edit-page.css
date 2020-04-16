@@ -1,0 +1,75 @@
+#img {
+  display: block;
+  visibility: hidden;
+  width: 100%;
+}
+.container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.container.container--might-drag {
+  cursor: move; /* fallback if grab cursor is unsupported */
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}
+
+.container.container--might-drag.container--dragging {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
+.container.container--resize-1 {
+  cursor: nw-resize;
+}
+
+.container.container--resize-2 {
+  cursor: n-resize;
+}
+
+.container.container--resize-3 {
+  cursor: ne-resize;
+}
+
+.container.container--resize-4 {
+  cursor: w-resize;
+}
+
+.container.container--resize-5 {
+  cursor: e-resize;
+}
+
+.container.container--resize-6 {
+  cursor: sw-resize;
+}
+
+.container.container--resize-7 {
+  cursor: s-resize;
+}
+
+.container.container--resize-8 {
+  cursor: se-resize;
+}
+
+#container div {
+  background: transparent;
+  box-sizing: border-box;
+  border: 1px dashed #666;
+  position: absolute;
+  left: 0;
+  margin: 0 auto;
+  top: 0;
+}
+
+#container input:focus {
+  outline: none;
+}
+
+.meme-text-input {
+  border-radius: 5px;
+  margin: 10px 0 0;
+}

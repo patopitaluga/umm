@@ -8,7 +8,7 @@ body.body--prevent-scroll {
   height: 100vh;
   height: calc(var(--vh, 1vh) * 100); /* sass-lint:disable-line no-duplicate-properties */
   overflow-y: hidden;
-  position: fixed;
+  /* position: fixed; */
   width: 100%;
 }
 
