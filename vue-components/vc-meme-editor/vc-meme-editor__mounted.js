@@ -111,15 +111,6 @@ module.exports = function() {
 
         updateCanvas();
       }
-
-      //p.mouseMoved = function() {
-        //updateCanvas();
-      //}
-
-      document.getElementById('download-button').onclick = function() {
-        updateCanvas(null, null, true);
-        p.saveCanvas(thismemeImg);
-      };
     }, 'container');
   }
   img.src = 'memes/' + this.vpMeme.img;

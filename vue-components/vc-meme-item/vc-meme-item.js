@@ -60,7 +60,10 @@ export default {
 
       const vueInstanceData = this._data;
       this.$nextTick(function() {
-        if (!navigator.share) { console.log(this.vdBlob); return; }
+        if (!navigator.share) {
+          // console.log(this.vdBlob);
+          return;
+        }
 
         navigator.share({
           title: '',

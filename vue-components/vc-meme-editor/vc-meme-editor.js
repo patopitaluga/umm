@@ -44,6 +44,9 @@ export default {
       vdPlatformName: window.platformName,
       vdMovingMouse: 0,
       vdSharing: false,
+
+      vdShowDownloadForIos: false,
+      vdImage4DownloadIos: {},
     };
   },
   mounted: require('./vc-meme-editor__mounted'),

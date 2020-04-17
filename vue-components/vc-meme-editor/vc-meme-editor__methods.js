@@ -207,4 +207,19 @@ module.exports = {
       });
     });
   },
+
+  /**
+   *
+   */
+  triggerDownload: function() {
+    this.updateCanvas(null, null, true);
+    if (this.vdPlatformOs === 'ios') {
+      this.vdImage4DownloadIos = document.querySelector('#container canvas').toDataURL();
+
+      this.vdShowDownloadForIos = 'none';
+      return;
+    }
+
+    window.p.saveCanvas(this.vpMeme.img);
+  },
 };

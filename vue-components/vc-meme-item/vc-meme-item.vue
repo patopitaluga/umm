@@ -48,7 +48,7 @@
           Share
         </button>
         <div
-          v-else
+          v-if="vdSharing"
           class="btn"
           style="background: transparent"
         >
