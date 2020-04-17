@@ -27,7 +27,7 @@
           :href="'memes/' + vpMeme.img"
           download
           title="Download"
-          @click.prevent="triggerDownloadMeme(vpMeme)"
+          @click.prevent="triggerDownloadMeme"
         >
           Download
         </a>
@@ -47,14 +47,21 @@
         >
           Share
         </button>
-        <button
+        <div
+          v-else
+          class="btn"
+          style="background: transparent"
+        >
+          Generating share image…
+        </div>
+        <a
           v-if="vpMeme.editable"
           class="btn btn--edit"
           title="Edit"
-          @click="mtdEditSelected(vpMeme.img)"
+          :href="'edit?i=' + vpMeme.img"
         >
           Edit
-        </button>
+        </a>
       </div>
     </div>
   </li>
