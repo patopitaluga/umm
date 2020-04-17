@@ -547,5 +547,11 @@
     "img": "elegant-philosoraptor.jpg",
     "editable": true,
     "category": "Philosoraptor"
+  },
+  {
+    "name": "Epic handshake Predator",
+    "img": "epic-handshake-predator.jpg",
+    "editable": true,
+    "category": ""
   }
 ]
