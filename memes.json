@@ -547,5 +547,24 @@
     "img": "elegant-philosoraptor.jpg",
     "editable": true,
     "category": "Philosoraptor"
+  },
+  {
+    "name": "Surprised blonde leo rosenwasser",
+    "img": "surprised-blonde-leo-rosenwasser.jpg",
+    "editable": true,
+    "category": "surprised"
+  },
+  {
+    "name": "Surprised diglett",
+    "img": "surprised-diglett.jpg",
+    "editable": true,
+    "category": "pokemon"
+  },
+  {
+    "name": "Surprised sonic",
+    "img": "surprised-sonic.jpg",
+    "editable": true,
+    "category": "Sonic",
+    "year": 2019
   }
 ]
