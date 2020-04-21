@@ -71,3 +71,23 @@ h2 {
 a {
   color: #000;
 }
+
+.app-drag-behavior__drag-file-cont {
+  background: rgba(255, 255, 255, .5);
+  border: 2px #666 dashed;
+  bottom: 3px;
+  color: #666;
+  align-items: center;
+  display: none;
+  font-size: 40px;
+  justify-content: center;
+  left: 3px;
+  position: fixed;
+  right: 3px;
+  top: 3px;
+  z-index: 9999;
+}
+
+.app-drag-behavior--dragging-file .app-drag-behavior__drag-file-cont {
+  display: flex;
+}

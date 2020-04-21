@@ -23,6 +23,22 @@
 <meta name="msapplication-TileImage" content="./ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 
+<meta name="description" content="Edit download and share memes with curated quality from my personal collection. The fastest and cleanest meme manager."/>
+
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="(The) Ultimate Meme Manager"/>
+<meta property="og:site_name" content="Ultimate (personal) Meme Manager"/>
+<meta property="og:url" content="https://patopitaluga.github.io/umm/"/>
+<meta property="og:description" content="Edit download and share memes with curated quality from my personal collection. The fastest and cleanest meme manager."/>
+<meta property="og:image" content="https://patopitaluga.github.io/umm/og-umm.jpg"/>
+<meta property="og:image:type" content="image/jpeg"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Edit download and share memes with curated quality from my personal collection. The fastest and cleanest meme manager."/>
+<meta name="twitter:image" content="https://patopitaluga.github.io/umm/og-umm.jpg"/>
+<meta name="twitter:card" content="summary_large_image"/>
+
 <link rel="stylesheet" href="home-page.css"/>
 <style>
   @font-face {
@@ -41,34 +57,74 @@
 </head>
 <body>
 <div id="app">
-  <div class="webapp-cont">
-    <h1>Ultimate Meme Manager</h1>
-    <search
-      :vp-meme-list="vdMemeList"
-      @addtofrequent="addToFrequent"
+  <div
+    class="app-drag-behavior"
+    :class="{
+      'app-drag-behavior--dragging-file': vdDraggingFile,
+    }"
+    @dragenter.prevent="vdDraggingFile = true"
+    @dragover.prevent="vdDraggingFile = true"
+    @drag.prevent
+    @dragstart.prevent
+  >
+    <div
+      class="app-drag-behavior__drag-file-cont"
+      @drag.prevent
+      @dragend.prevent="vdDraggingFile = false"
+      @dragleave.prevent="vdDraggingFile = false"
+      @drop.prevent="mtdFileDropped"
     >
-    </search>
+      Drop file to edit as meme.
+    </div>
 
-    <hr/>
-    <h2>Recent:</h2>
-    <memelist
-      :vp-meme-list="vdFrequent"
-      :vp-cols="3"
-      @addtofrequent="addToFrequent"
+    <div
+      v-if="!vdEditingMeme"
+      class="webapp-cont"
     >
-    </memelist>
+      <h1>Ultimate Meme Manager</h1>
+      <search
+        :vp-meme-list="vdMemeList"
+        @addtofrequent="addToFrequent"
+      >
+      </search>
 
-    <hr/>
-    <h2>Random suggestions:</h2>
-    <memelist
-      :vp-meme-list="vdRandomMemes"
-      :vp-cols="4"
-      @addtofrequent="addToFrequent"
+      <hr/>
+      <h2>Recent:</h2>
+      <memelist
+        :vp-meme-list="vdFrequent"
+        :vp-cols="3"
+        @addtofrequent="addToFrequent"
+      >
+      </memelist>
+
+      <hr/>
+      <h2>Random suggestions:</h2>
+      <memelist
+        :vp-meme-list="vdRandomMemes"
+        :vp-cols="4"
+        @addtofrequent="addToFrequent"
+      >
+      </memelist>
+
+    </div>
+
+    <div
+      v-if="vdEditingMeme"
+      class="webapp-cont"
     >
-    </memelist>
-
+      <a
+        href="./"
+        style="display: block;margin-top: 10px;"
+      >Back</a>
+      <h1>Ultimate Meme Manager</h1>
+      <memeeditor
+        :vp-meme="vdMemeToEdit"
+      >
+      </memeeditor>
+    </div>
   </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
 <script src="dist/home.js?r=10"></script>
 </body>

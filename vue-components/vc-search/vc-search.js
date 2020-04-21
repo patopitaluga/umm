@@ -11,13 +11,13 @@ export default {
       type: Array,
     },
   },
-  data: function() {
+  data: function() { // eslint-disable-line require-jsdoc
     return {
       vdInputSuggestionTerm: '',
       vdMatchingMemes: [],
     };
   },
-  mounted: function() {
+  mounted: function() { // eslint-disable-line require-jsdoc
     this.$refs.searchinput.value = '';
   },
   methods: methods

@@ -2,6 +2,12 @@ var memes = require('./memes.json');
 const fs = require('fs');
 const prompts = require('prompts');
 
+/**
+ * Slugify a string.
+ *
+ * @param {string} str -
+ * @return {string}
+ */
 const slugify = (str) => {
   str = str.replace(/^\s+|\s+$/g, ''); // trim
   str = str.toLowerCase();
@@ -36,8 +42,8 @@ fs.readdir('./', (_err, _files) => {
     ) {
       newMemeFound = true;
 
-      console.log('Found ' + _eachFile)
-      console.log('')
+      console.log('Found ' + _eachFile);
+      console.log('');
       let possibleMemeName = _eachFile.substr(0, _eachFile.lastIndexOf('.'));
       if (possibleMemeName === possibleMemeName.toUpperCase()) possibleMemeName = possibleMemeName.toLowerCase();
       possibleMemeName = possibleMemeName.substr(0, 1).toUpperCase() + possibleMemeName.slice(1).replace(/-/g, ' ');
@@ -53,7 +59,7 @@ fs.readdir('./', (_err, _files) => {
       if (isTheName.toLowerCase() === 'no') isTheName = 'n';
       if (isTheName.toLowerCase() !== 'y' && isTheName.toLowerCase() !== 'n' && isTheName !== '') {
         console.log(isTheName + ' wrong answer.');
-        process.exit(0)
+        process.exit(0);
       }
       if (isTheName.toLowerCase() === 'n') {
         const prompt2 = await prompts({
@@ -74,7 +80,7 @@ fs.readdir('./', (_err, _files) => {
         if (isItCorrectlyWritten.toLowerCase() === 'no') isItCorrectlyWritten = 'n';
         if (isItCorrectlyWritten.toLowerCase() !== 'y' && isItCorrectlyWritten.toLowerCase() !== 'n' && isItCorrectlyWritten !== '') {
           console.log(isItCorrectlyWritten + ' wrong answer.');
-          process.exit(0)
+          process.exit(0);
         }
         if (isItCorrectlyWritten.toLowerCase() === 'n') {
           const prompt4 = await prompts({
@@ -95,7 +101,7 @@ fs.readdir('./', (_err, _files) => {
 
       if (promptYear !== '' && isNaN(promptYear)) {
         console.log(promptYear + ' wrong answer.');
-        process.exit(0)
+        process.exit(0);
       }
       const prompt6 = await prompts({
         type: 'text',
@@ -128,7 +134,7 @@ fs.readdir('./', (_err, _files) => {
       let memesWithNewOne = [
         ...memes,
         newMeme
-      ]
+      ];
       fs.writeFileSync('memes.json', JSON.stringify(memesWithNewOne, null, 2));
 
       fs.copyFileSync(_eachFile, 'public/memes/' + finalFilename);
@@ -142,6 +148,6 @@ fs.readdir('./', (_err, _files) => {
   });
 
   if (!newMemeFound) {
-    console.log('No new memes to be added. To add a new meme copy the image to this folder and run "npm run addmeme" again.')
+    console.log('No new memes to be added. To add a new meme copy the image to this folder and run "npm run addmeme" again.');
   }
 });

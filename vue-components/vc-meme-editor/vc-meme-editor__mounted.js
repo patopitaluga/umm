@@ -1,12 +1,12 @@
 const utils = require('./vc-meme-editor__utils');
 
 /**
- *
+ * Vue mounted function for this component.
  */
 module.exports = function() {
   const vueInstanceData = this._data;
   const updateCanvas = this.updateCanvas;
-  const thismemeImg = this.vpMeme.img;
+  const thismemeImg = ((this.vpMeme.img.substr(0, 5) === 'data:') ? this.vpMeme.img : 'memes/' + this.vpMeme.img);
   const img = document.getElementById('img');
   img.onload = function() {
     imgWidth = this.width;
@@ -19,9 +19,8 @@ module.exports = function() {
 
       p.preload = function() {
         font1 = p.loadFont('anton-regular.ttf');
-        window.bg = p.loadImage('memes/' + thismemeImg);
+        window.bg = p.loadImage(thismemeImg);
       }
-      let textBox = document.getElementById('textbox');
       p.setup = function() {
         p.createCanvas(imgWidth, imgHeight);
 
@@ -38,6 +37,11 @@ module.exports = function() {
         p.noLoop();
       }
 
+      /**
+       * Triggered on mouse / tap press.
+       *
+       * @param {object} evt -
+       */
       const mPressed = function(evt) {
         let mouseX;
         let mouseY;
@@ -90,6 +94,9 @@ module.exports = function() {
         }
       }
 
+      /**
+       * Triggered on mouse / tap release.
+       */
       const mReleased = function() {
         vueInstanceData.vdDragging = false;
         vueInstanceData.vdResizing = false;
@@ -113,5 +120,5 @@ module.exports = function() {
       }
     }, 'container');
   }
-  img.src = 'memes/' + this.vpMeme.img;
+  img.src = thismemeImg;
 };

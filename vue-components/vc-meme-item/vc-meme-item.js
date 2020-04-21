@@ -15,7 +15,7 @@ export default {
       vdBlob: {},
     };
   },
-  mounted: function() {
+  mounted: function() { // eslint-disable-line require-jsdoc
     if (this.vpMeme.active)
       this.vdActive = true;
   },
@@ -90,7 +90,9 @@ export default {
     },
 
     /**
+     * Get a blob given a image url data.
      *
+     * @param {string} _imageUrl -
      */
     getBlob: function(_imageUrl) {
       const vueInstanceData = this._data;
