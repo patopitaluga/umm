@@ -10,7 +10,7 @@ const currentMeme = memes.filter(function(eachOne) {
 document.title = 'Editing ' + currentMeme.name + ' - Ultimate Meme Manager';
 
 /**
- * Since 100vh in mobile doesn't include brower bars this hack is helpful. See https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
+ * Since 100vh in mobile doesn't include brower bars this hack is helpful. See https://css-tricks.com/the-trick-to-viewport-units-on-mobile/.
  */
 function realVisualHeight() {
   let vh = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -27,9 +27,6 @@ window.addEventListener('orientationchange', function() {
 
 window.platformOs = helpers.$_GET('emu') || platform.os.family.toLowerCase();
 window.platformName = platform.name.toLowerCase();
-
-let imgWidth = 0;
-let imgHeight = 0;
 
 import memeeditor from '../vue-components/vc-meme-editor/vc-meme-editor.vue';
 

@@ -209,7 +209,7 @@ module.exports = {
   },
 
   /**
-   *
+   * Download the meme as a file.
    */
   triggerDownload: function() {
     this.updateCanvas(null, null, true);
@@ -220,6 +220,13 @@ module.exports = {
       return;
     }
 
-    window.p.saveCanvas(this.vpMeme.img);
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < 10; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    window.p.saveCanvas(result, 'jpg');
   },
 };

@@ -14,4 +14,4 @@ module.exports = (app) => {
     let fileStr = fs.readFileSync(path.resolve(__dirname, 'public/edit.html'), 'utf8');
     res.send(eval('`' + fileStr + '`'));
   });
-}
+};
