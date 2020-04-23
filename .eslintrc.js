@@ -27,7 +27,6 @@ module.exports = {
         "FunctionExpression": true,
       }
     }],
-    "semi": 2,
     "valid-jsdoc": [2, {
       "matchDescription": "^([A-Z]|[`\\d_])[\\s\\S]*[.?!`]$",
       "prefer": {

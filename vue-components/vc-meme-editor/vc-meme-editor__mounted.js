@@ -4,6 +4,8 @@ const utils = require('./vc-meme-editor__utils');
  * Vue mounted function for this component.
  */
 module.exports = function() {
+  const containerWidth = document.querySelector('#container').offsetWidth;
+
   const vueInstanceData = this._data;
   const updateCanvas = this.updateCanvas;
   const thismemeImg = ((this.vpMeme.img.substr(0, 5) === 'data:') ? this.vpMeme.img : 'memes/' + this.vpMeme.img);
@@ -11,6 +13,11 @@ module.exports = function() {
   img.onload = function() {
     imgWidth = this.width;
     imgHeight = this.height;
+    if (imgWidth > containerWidth) {
+      imgHeight = (containerWidth * imgHeight) / imgWidth;
+      imgWidth = containerWidth;
+      this.style.width = imgWidth + 'px';
+    }
     this.style.display = 'none';
 
     new p5(function(p) {
@@ -76,7 +83,8 @@ module.exports = function() {
         vueInstanceData.vdMightDrag = mightDrag;
 
         if (mightDrag > -1) {
-          document.body.classList.add('body--prevent-scroll');
+          if (vueInstanceData.vdPlatformOs === 'ios' || vueInstanceData.vdPlatformOs === 'android')
+            document.body.classList.add('body--prevent-scroll');
 
           vueInstanceData.draggingOffsetX = mouseX - vueInstanceData.vdBoxes[mightDrag].left;
           vueInstanceData.draggingOffsetY = mouseY - vueInstanceData.vdBoxes[mightDrag].top;
@@ -84,7 +92,8 @@ module.exports = function() {
           return;
         }
         if (mightResize > -1) {
-          document.body.classList.add('body--prevent-scroll');
+          if (vueInstanceData.vdPlatformOs === 'ios' || vueInstanceData.vdPlatformOs === 'android')
+            document.body.classList.add('body--prevent-scroll');
 
           vueInstanceData.vdInitialResizeWidth = vueInstanceData.vdBoxes[mightResize].width,
           vueInstanceData.vdInitialResizeHeight = vueInstanceData.vdBoxes[mightResize].height,

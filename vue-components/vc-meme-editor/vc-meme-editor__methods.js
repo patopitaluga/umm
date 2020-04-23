@@ -2,8 +2,12 @@ const utils = require('./vc-meme-editor__utils');
 
 module.exports = {
   /**
-  *
-  */
+   * Updates the content of the canvas. Since the draw function is not a loop it's triggered on dragging, writing and other user interactions.
+   *
+   * @param {object} evt -
+   * @param {boolean} isMouse -
+   * @param {boolean} renderOnlyTexts -
+   */
   updateCanvas: function(evt, isMouse, renderOnlyTexts) {
     let mouseX;
     let mouseY;
@@ -29,7 +33,7 @@ module.exports = {
     const theTexts = this.vdTexts;
     const theFontsizes = this.vdFontSizes;
     this.vdBoxes.forEach(function(eachBox, i) {
-      //let topOffset = eachBox.height / 2 + 18;
+      // let topOffset = eachBox.height / 2 + 18;
       window.p.textSize(Number(theFontsizes[i + 1]));
       window.p.text(
         theTexts[i + 1].toUpperCase(),
@@ -60,8 +64,7 @@ module.exports = {
         this.vdMightResizeCorner === 4 ||
         this.vdMightResizeCorner === 6
       ) {
-        newWidth =
-        this.vdInitialResizeWidth + (this.vdInitialResizePosX - mouseX);
+        newWidth = this.vdInitialResizeWidth + (this.vdInitialResizePosX - mouseX);
         newLeft = mouseX;
       }
 
@@ -80,14 +83,13 @@ module.exports = {
         this.vdMightResizeCorner === 5 ||
         this.vdMightResizeCorner === 8
       )
-      newWidth =
-      this.vdInitialResizeWidth + (mouseX - this.vdInitialResizePosX);
+        newWidth = this.vdInitialResizeWidth + (mouseX - this.vdInitialResizePosX);
       if (
         this.vdMightResizeCorner === 6 ||
         this.vdMightResizeCorner === 7 ||
         this.vdMightResizeCorner === 8
       )
-      newHeight = this.vdInitialResizeHeight + (mouseY - this.vdInitialResizePosY);
+        newHeight = this.vdInitialResizeHeight + (mouseY - this.vdInitialResizePosY);
 
       if (newLeft <= 0) { newLeft = 0; newWidth = this.vdBoxes[this.vdMightResize].width; }
       if (newLeft + newWidth > imgWidth) newWidth = imgWidth - newLeft;
@@ -139,7 +141,7 @@ module.exports = {
           if (isMouse && !isResizing && mightResize === -1) {
             resizeHandle = utils.checkIfMightResize(evt, eachBox);
             if (resizeHandle > -1)
-            mightResize = index;
+              mightResize = index;
           }
         }
 
@@ -156,15 +158,16 @@ module.exports = {
       });
     if (!this.vdResizing) {
       this.vdMightResize = mightResize;
+      console.log(this.vdMightResizeCorner)
       this.vdMightResizeCorner = resizeHandle;
     }
     if (!this.vdDragging)
-    this.vdMightDrag = mightDrag;
+      this.vdMightDrag = mightDrag;
   },
 
   /**
-  *
-  */
+   * Todo.
+   */
   mtdAddText: function() {
     this.vdBoxes.push(JSON.parse(JSON.stringify(this.vdBoxModel)));
     this.vdBoxes[this.vdBoxes.length - 1].width = Math.floor(imgWidth * .8);
@@ -174,7 +177,7 @@ module.exports = {
   },
 
   /**
-  *
+  * Todo.
   */
   mtdShare: function() {
     if (!navigator.share) return;

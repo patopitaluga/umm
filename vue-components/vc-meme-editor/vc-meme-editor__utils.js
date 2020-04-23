@@ -2,7 +2,11 @@ const littleSquareSize = 16;
 
 module.exports = {
   /**
+   * Todo.
    *
+   * @param {object} evt -
+   * @param {object} eachBox -
+   * @return {number}
    */
   checkIfMightResize: function(evt, eachBox) {
 
