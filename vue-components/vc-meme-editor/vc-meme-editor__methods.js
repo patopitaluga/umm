@@ -1,5 +1,33 @@
 const utils = require('./vc-meme-editor__utils');
 
+/**
+ * TODO.
+ *
+ * @param {string} text -
+ * @param {number} maxWidth -
+ * @param {number} _theFontSize -
+ * @return {number}
+ */
+function textHeight(text, maxWidth, _theFontSize) {
+  var words = text.split(' ');
+  var line = '';
+  var h = _theFontSize * 1.8;
+
+  for (var i = 0; i < words.length; i++) {
+    var testLine = line + words[i] + ' ';
+    var testWidth = window.p.textWidth(testLine);
+
+    if (testWidth > maxWidth && i > 0) {
+      line = words[i] + ' ';
+      h += window.p.textAscent(testLine);
+    } else {
+      line = testLine;
+    }
+  }
+
+  return h;
+}
+
 module.exports = {
   /**
    * Updates the content of the canvas. Since the draw function is not a loop it's triggered on dragging, writing and other user interactions.
@@ -33,8 +61,16 @@ module.exports = {
     const theTexts = this.vdTexts;
     const theFontsizes = this.vdFontSizes;
     this.vdBoxes.forEach(function(eachBox, i) {
-      // let topOffset = eachBox.height / 2 + 18;
+      if (theTexts[i + 1] === '') return;
+
       window.p.textSize(Number(theFontsizes[i + 1]));
+      let textWillMeasure = textHeight(theTexts[i + 1].toUpperCase(), eachBox.width, Number(theFontsizes[i + 1]));
+
+      while (textWillMeasure > eachBox.height) {
+        theFontsizes[i + 1] -= 1;
+        window.p.textSize(Number(theFontsizes[i + 1]));
+        textWillMeasure = textHeight(theTexts[i + 1].toUpperCase(), eachBox.width, Number(theFontsizes[i + 1]));
+      }
       window.p.text(
         theTexts[i + 1].toUpperCase(),
         eachBox.left + leftOffset, eachBox.top + topOffset, eachBox.width, eachBox.height
@@ -66,6 +102,7 @@ module.exports = {
       ) {
         newWidth = this.vdInitialResizeWidth + (this.vdInitialResizePosX - mouseX);
         newLeft = mouseX;
+        if (newLeft <= 0) { newLeft = 0; newWidth = this.vdBoxes[this.vdMightResize].width; }
       }
 
       if (
@@ -73,8 +110,7 @@ module.exports = {
         this.vdMightResizeCorner === 2 ||
         this.vdMightResizeCorner === 3
       ) {
-        newHeight =
-        this.vdInitialResizeHeight + (this.vdInitialResizePosY - mouseY);
+        newHeight = this.vdInitialResizeHeight + (this.vdInitialResizePosY - mouseY);
         newTop = mouseY;
       }
 
@@ -88,19 +124,20 @@ module.exports = {
         this.vdMightResizeCorner === 6 ||
         this.vdMightResizeCorner === 7 ||
         this.vdMightResizeCorner === 8
-      )
+      ) {
         newHeight = this.vdInitialResizeHeight + (mouseY - this.vdInitialResizePosY);
+        while (newTop + newHeight > imgHeight) newHeight--;
+      }
 
-      if (newLeft <= 0) { newLeft = 0; newWidth = this.vdBoxes[this.vdMightResize].width; }
-      if (newLeft + newWidth > imgWidth) newWidth = imgWidth - newLeft;
+      // if (newLeft + newWidth > imgWidth) newWidth = imgWidth - newLeft;
       if (newTop <= 0) { newTop = 0; newHeight = this.vdBoxes[this.vdMightResize].height; }
-      if (newTop + newHeight > imgHeight) newHeight = imgHeight - newTop;
       if (newHeight < 80) newHeight = 80;
       if (newWidth < 80) newWidth = 80;
 
+      if (newHeight !== this.vdBoxes[this.vdMightResize].height)
+        this.vdBoxes[this.vdMightResize].top = newTop;
       this.vdBoxes[this.vdMightResize].height = newHeight;
       this.vdBoxes[this.vdMightResize].left = newLeft;
-      this.vdBoxes[this.vdMightResize].top = newTop;
       this.vdBoxes[this.vdMightResize].width = newWidth;
     }
 
@@ -158,7 +195,6 @@ module.exports = {
       });
     if (!this.vdResizing) {
       this.vdMightResize = mightResize;
-      console.log(this.vdMightResizeCorner)
       this.vdMightResizeCorner = resizeHandle;
     }
     if (!this.vdDragging)
