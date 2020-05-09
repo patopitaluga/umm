@@ -6,28 +6,16 @@ export default {
     },
   },
   data: function() { // eslint-disable-line require-jsdoc
-    let boxes = [];
-    if (typeof this.vpMeme.texts !== 'undefined') {
-      this.vpMeme.texts.forEach(function(eachBoxText) {
-        boxes.push(
-          {
-            left: eachBoxText.left,
-            top: eachBoxText.top,
-            height: 80,
-          }
-        );
-      });
-    }
-
     return {
-      vdBoxes: boxes,
-      vdTexts: function() { const a = [null, '']; for (let r = 0; r < boxes.length; r++) a.push(''); return a; }(),
-      vdFontSizes: function() { const a = [null, 46]; for (let r = 0; r < boxes.length; r++) a.push(46); return a; }(),
+      vdBoxes: [],
       vdBoxModel: {
         left: -1,
         top: -1,
         width: 0,
         height: 80,
+        fontSize: 46,
+        fontFamily: 1,
+        text: '',
       },
       vdMightDrag: -1,
       vdDragging: false,
@@ -44,6 +32,7 @@ export default {
       vdPlatformName: window.platformName,
       vdMovingMouse: 0,
       vdSharing: false,
+      vdLoadedFonts: [],
 
       vdShowDownloadForIos: false,
       vdImage4DownloadIos: {},

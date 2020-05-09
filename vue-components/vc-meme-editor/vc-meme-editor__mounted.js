@@ -6,6 +6,23 @@ const utils = require('./vc-meme-editor__utils');
 module.exports = function() {
   const containerWidth = document.querySelector('#container').offsetWidth;
 
+  let boxes = [];
+  if (typeof this.vpMeme.texts !== 'undefined') {
+    this.vpMeme.texts.forEach(function(eachBoxText) {
+      boxes.push(
+        {
+          left: (String(eachBoxText.left).indexOf('%') === -1) ? eachBoxText.left : containerWidth * eachBoxText.left.replace('%', '') / 100,
+          top: (String(eachBoxText.top).indexOf('%') === -1) ? eachBoxText.top : containerWidth * eachBoxText.top.replace('%', '') / 100,
+          height: 80,
+          fontSize: ((eachBoxText.fontSize) ? eachBoxText.fontSize : 46),
+          fontFamily: ((eachBoxText.fontFamily) ? eachBoxText.fontFamily : 1),
+          width: ((eachBoxText.width) ? eachBoxText.width : null),
+        }
+      );
+    });
+  }
+  this.vdBoxes = boxes;
+
   const vueInstanceData = this._data;
   const updateCanvas = this.updateCanvas;
   const thismemeImg = ((this.vpMeme.img.substr(0, 5) === 'data:') ? this.vpMeme.img : 'memes/' + this.vpMeme.img);
@@ -22,23 +39,20 @@ module.exports = function() {
 
     new p5(function(p) {
       window.p = p;
-      let font1;
-
       p.preload = function() {
-        // font1 = p.loadFont('impact.ttf');
-        font1 = p.loadFont('anton-regular.ttf');
+        // vueInstanceData.vdLoadedFonts[1] = p.loadFont('impact.ttf');
+        vueInstanceData.vdLoadedFonts[1] = p.loadFont('anton-regular.ttf');
+        vueInstanceData.vdLoadedFonts[2] = p.loadFont('definitely-not-arial.ttf');
         window.bg = p.loadImage(thismemeImg);
       }
       p.setup = function() {
         p.createCanvas(imgWidth, imgHeight);
 
-        p.textFont(font1);
-
         if (vueInstanceData.vdBoxes.length === 0)
           vueInstanceData.vdBoxes.push(JSON.parse(JSON.stringify(vueInstanceData.vdBoxModel)));
 
         vueInstanceData.vdBoxes.forEach(function(eachBox) {
-          eachBox.width = Math.floor(imgWidth * .8);
+          eachBox.width = ((eachBox.width) ? containerWidth * String(eachBox.width).replace('%', '') / 100 : Math.floor(imgWidth * .8));
           if (eachBox.left === -1) eachBox.left = Math.floor((imgWidth - Math.floor(imgWidth * .8)) / 2);
           if (eachBox.top === -1) eachBox.top = imgHeight - 100;
         });

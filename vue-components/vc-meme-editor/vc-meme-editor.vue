@@ -2,28 +2,42 @@
   <div>
     <div v-show="!vdShowDownloadForIos">
       <h2>Add text</h2>
-
       <div
-        v-for="r in vdBoxes.length"
+        v-for="(eachBox, r) in vdBoxes"
         :key="r"
         v-cloak
         style="display: flex;"
       >
-        <input
-          :placeholder="'Text ' + r"
-          class="meme-text-input"
-          type="text"
-          v-model="vdTexts[r]"
-          @keyup="updateCanvas"
-        />
-        <input
-          class="meme-text-input"
-          type="number"
-          v-model="vdFontSizes[r]"
-          @change="updateCanvas"
-          @keyup="updateCanvas"
-          style="width: 60px;margin-left: 5px;"
-        />
+        <div style="margin: 0; flex: 1 1 auto;">
+          <input
+            :placeholder="'Text ' + (r + 1)"
+            class="meme-text-input"
+            type="text"
+            v-model="eachBox.text"
+            @keyup="updateCanvas"
+          />
+        </div>
+        <div style="margin: 0; flex: 0 0 auto;margin-left: 5px;">
+          <select
+            class="meme-text-input"
+            style="height: 38px;"
+            v-model="eachBox.fontFamily"
+            @change="updateCanvas"
+          >
+            <option :value="1">Impact-ish</option>
+            <option :value="2">Arial-ish</option>
+          </select>
+        </div>
+        <div style="margin: 0; flex: 0 0 auto;width: 60px;margin-left: 5px;">
+          <input
+            class="meme-text-input"
+            type="number"
+            v-model="eachBox.fontSize"
+            @change="updateCanvas"
+            @keyup="updateCanvas"
+            style="width: 60px;margin-left: 5px;"
+          />
+        </div>
       </div>
       <div style="display: flex;width: 100%;padding: 8px 0 5px;">
         <button

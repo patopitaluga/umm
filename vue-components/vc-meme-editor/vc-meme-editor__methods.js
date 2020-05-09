@@ -54,25 +54,33 @@ module.exports = {
     let leftOffset = 4;
     let topOffset = 11;
 
-    window.p.stroke(0);
-    window.p.strokeWeight(6);
-    window.p.fill(255, 255, 255);
+    const loadedFonts = this.vdLoadedFonts;
+    this.vdBoxes.forEach(function(eachBox) {
+      if (eachBox.text === '') return;
+      let currentText = ((eachBox.text) ? eachBox.text : '');
 
-    const theTexts = this.vdTexts;
-    const theFontsizes = this.vdFontSizes;
-    this.vdBoxes.forEach(function(eachBox, i) {
-      if (theTexts[i + 1] === '') return;
+      if (eachBox.fontFamily === 1) {
+        window.p.stroke(0);
+        window.p.strokeWeight(6);
+        window.p.fill(255, 255, 255);
+        currentText = currentText.toUpperCase();
+      }
+      if (eachBox.fontFamily === 2) {
+        window.p.strokeWeight(0);
+        window.p.fill(0, 0, 0);
+      }
 
-      window.p.textSize(Number(theFontsizes[i + 1]));
-      let textWillMeasure = textHeight(theTexts[i + 1].toUpperCase(), eachBox.width, Number(theFontsizes[i + 1]));
+      window.p.textFont(loadedFonts[eachBox.fontFamily]);
+      window.p.textSize(Number(eachBox.fontSize));
+      let textWillMeasure = textHeight(currentText, eachBox.width, Number(eachBox.fontSize));
 
       while (textWillMeasure > eachBox.height) {
-        theFontsizes[i + 1] -= 1;
-        window.p.textSize(Number(theFontsizes[i + 1]));
-        textWillMeasure = textHeight(theTexts[i + 1].toUpperCase(), eachBox.width, Number(theFontsizes[i + 1]));
+        eachBox.fontSize -= 1;
+        window.p.textSize(Number(eachBox.fontSize));
+        textWillMeasure = textHeight(currentText, eachBox.width, Number(eachBox.fontSize));
       }
       window.p.text(
-        theTexts[i + 1].toUpperCase(),
+        currentText,
         eachBox.left + leftOffset, eachBox.top + topOffset, eachBox.width, eachBox.height
       );
     });
@@ -208,12 +216,13 @@ module.exports = {
     this.vdBoxes.push(JSON.parse(JSON.stringify(this.vdBoxModel)));
     this.vdBoxes[this.vdBoxes.length - 1].width = Math.floor(imgWidth * .8);
     this.vdBoxes[this.vdBoxes.length - 1].left = Math.floor((imgWidth - Math.floor(imgWidth * .8)) / 2);
-    this.vdTexts.push('');
-    this.vdFontSizes.push(46);
+    this.vdBoxes[this.vdBoxes.length - 1].fontSize = 46;
+    this.vdBoxes[this.vdBoxes.length - 1].fontFamily = 1;
+    this.vdBoxes[this.vdBoxes.length - 1].text = '';
   },
 
   /**
-  * Todo.
+  * Share.
   */
   mtdShare: function() {
     if (!navigator.share) return;
