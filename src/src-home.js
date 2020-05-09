@@ -45,6 +45,7 @@ new Vue({
       vdFrequent: [],
       vdMemeList: memes,
       vdRandomMemes: randomMemes,
+      vdTheresMatch: false,
     };
   },
   mounted: function() { // eslint-disable-line require-jsdoc
@@ -142,6 +143,15 @@ new Vue({
         };
         readerForFrontend.readAsDataURL(file);
       }
+    },
+
+    /**
+     * Triggered by @foundmatch in <search> component.
+     *
+     * @param {boolean} _anyMatch -
+     */
+    mtdSearchResults: function(_anyMatch) {
+      this.vdTheresMatch = _anyMatch;
     },
   },
 });

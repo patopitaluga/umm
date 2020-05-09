@@ -25,6 +25,7 @@ module.exports = function() {
       let font1;
 
       p.preload = function() {
+        // font1 = p.loadFont('impact.ttf');
         font1 = p.loadFont('anton-regular.ttf');
         window.bg = p.loadImage(thismemeImg);
       }

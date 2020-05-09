@@ -1,4 +1,5 @@
 /**
+ * Turn text to slug.
  *
  * @param {string} str - The string to be slugified.
  * @return {string}
@@ -22,7 +23,7 @@ const slugify = function(str) {
 };
 
 String.prototype.showMatching = function(_term) {
-  var esc = _term.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+  var esc = _term.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
   var reg = new RegExp(esc, 'ig');
 
   var strWithMatch = this;
@@ -39,13 +40,13 @@ String.prototype.showMatching = function(_term) {
 
 module.exports = {
   /**
-   *
+   * On @blur search input.
    */
   mtdBlurSearchInput: function() {
   },
 
   /**
-   *
+   * On focus search input.
    */
   mtdDisplaySuggestions: function() {
     if (this.vdInputSuggestionTerm.length !== 0) {
@@ -53,7 +54,7 @@ module.exports = {
   },
 
   /**
-   *
+   * On every @keyup.
    */
   mtdSuggestSearchTermChanged: function() {
     const matches = [];
@@ -77,14 +78,12 @@ module.exports = {
       });
       this.vdMatchingMemes = matches;
     }
+    this.$emit('foundmatch', (matches.length > 0));
   },
 
   /**
-   * Triggered when user clicks on suggested option.
-   *
-   * @param {number} optionId -
-   * @param {string} optionLabel -
+   * Just to avoid the form to be submited.
    */
-  mtdSuggestionSelected: function(optionId, optionLabel) {
+  mtdPreventSubmit: function() {
   },
 };
