@@ -85,26 +85,31 @@
       <search
         :vp-meme-list="vdMemeList"
         @addtofrequent="addToFrequent"
+        @foundmatch="mtdSearchResults"
       >
       </search>
 
-      <hr/>
-      <h2>Recent:</h2>
-      <memelist
-        :vp-meme-list="vdFrequent"
-        :vp-cols="3"
-        @addtofrequent="addToFrequent"
-      >
-      </memelist>
+      <div v-if="!vdTheresMatch && vdFrequent.length > 0">
+        <hr/>
+        <h2>Recent:</h2>
+        <memelist
+          :vp-meme-list="vdFrequent"
+          :vp-cols="3"
+          @addtofrequent="addToFrequent"
+        >
+        </memelist>
+      </div>
 
-      <hr/>
-      <h2>Random suggestions:</h2>
-      <memelist
-        :vp-meme-list="vdRandomMemes"
-        :vp-cols="4"
-        @addtofrequent="addToFrequent"
-      >
-      </memelist>
+      <div v-if="!vdTheresMatch">
+        <hr/>
+        <h2>Random suggestions:</h2>
+        <memelist
+          :vp-meme-list="vdRandomMemes"
+          :vp-cols="4"
+          @addtofrequent="addToFrequent"
+        >
+        </memelist>
+      </div>
 
     </div>
 
