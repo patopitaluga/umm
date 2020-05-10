@@ -37,6 +37,7 @@ select {
   border: 1px #666 solid;
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
+  font-size: .9rem;
   padding: 10px;
   width: 100%;
 }
