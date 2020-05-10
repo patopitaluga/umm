@@ -583,5 +583,28 @@
     "editable": true,
     "category": "Sonic",
     "year": 2019
+  },
+  {
+    "name": "Zoomer vs Albert",
+    "img": "zoomer-vs-albert.png",
+    "editable": true,
+    "year": 2020,
+    "category": "Argentina Alberto Fernández",
+    "texts": [
+      {
+        "left": "5%",
+        "top": "45.5%",
+        "fontSize": 20,
+        "fontFamily": 2,
+        "width": "40%"
+      },
+      {
+        "left": "55%",
+        "top": "45.5%",
+        "fontSize": 20,
+        "fontFamily": 2,
+        "width": "40%"
+      }
+    ]
   }
 ]
