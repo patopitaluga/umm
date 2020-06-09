@@ -41,12 +41,13 @@ fs.readdir('./', (_err, _files) => {
       extension === '.png'
     ) {
       newMemeFound = true;
-
-      console.log('Found ' + _eachFile);
-      console.log('');
       let possibleMemeName = _eachFile.substr(0, _eachFile.lastIndexOf('.'));
       if (possibleMemeName === possibleMemeName.toUpperCase()) possibleMemeName = possibleMemeName.toLowerCase();
       possibleMemeName = possibleMemeName.substr(0, 1).toUpperCase() + possibleMemeName.slice(1).replace(/-/g, ' ');
+
+      console.log('Found ' + _eachFile);
+      console.log('');
+
       const prompt1 = await prompts({
         type: 'text',
         name: 'value',
@@ -54,6 +55,7 @@ fs.readdir('./', (_err, _files) => {
         initial: 'Y',
       });
       isTheName = prompt1.value;
+      if (!isTheName) process.exit();
 
       if (isTheName.toLowerCase() === 'yes') isTheName = 'y';
       if (isTheName.toLowerCase() === 'no') isTheName = 'n';

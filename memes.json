@@ -606,5 +606,17 @@
         "width": "40%"
       }
     ]
+  },
+  {
+    "name": "I should buy a boat",
+    "img": "i-should-buy-a-boat.jpg",
+    "editable": false,
+    "category": "cats gatos"
+  },
+  {
+    "name": "Absolutely Barbaric",
+    "img": "absolutely-barbaric.jpg",
+    "editable": false,
+    "category": ""
   }
 ]

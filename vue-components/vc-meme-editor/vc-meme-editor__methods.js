@@ -61,7 +61,11 @@ module.exports = {
 
       if (eachBox.fontFamily === 1) {
         window.p.stroke(0);
-        window.p.strokeWeight(6);
+        window.p.strokeWeight(3);
+        if (Number(eachBox.fontSize) > 35)
+          window.p.strokeWeight(6);
+        if (Number(eachBox.fontSize) > 20)
+          window.p.strokeWeight(4);
         window.p.fill(255, 255, 255);
         currentText = currentText.toUpperCase();
       }
@@ -139,7 +143,7 @@ module.exports = {
 
       // if (newLeft + newWidth > imgWidth) newWidth = imgWidth - newLeft;
       if (newTop <= 0) { newTop = 0; newHeight = this.vdBoxes[this.vdMightResize].height; }
-      if (newHeight < 80) newHeight = 80;
+      if (newHeight < 60) newHeight = 60;
       if (newWidth < 80) newWidth = 80;
 
       if (newHeight !== this.vdBoxes[this.vdMightResize].height)
@@ -214,10 +218,16 @@ module.exports = {
    */
   mtdAddText: function() {
     this.vdBoxes.push(JSON.parse(JSON.stringify(this.vdBoxModel)));
-    this.vdBoxes[this.vdBoxes.length - 1].width = Math.floor(imgWidth * .8);
+    // this.vdBoxes[this.vdBoxes.length - 1].width = Math.floor(imgWidth * .8);
+    // this.vdBoxes[this.vdBoxes.length - 1].left = Math.floor((imgWidth - Math.floor(imgWidth * .8)) / 2);
+    // this.vdBoxes[this.vdBoxes.length - 1].fontSize = 46;
+    // this.vdBoxes[this.vdBoxes.length - 1].fontFamily = 1;
+    // this.vdBoxes[this.vdBoxes.length - 1].text = '';
+
+    this.vdBoxes[this.vdBoxes.length - 1].width = this.vdBoxes[this.vdBoxes.length - 2].width;
     this.vdBoxes[this.vdBoxes.length - 1].left = Math.floor((imgWidth - Math.floor(imgWidth * .8)) / 2);
-    this.vdBoxes[this.vdBoxes.length - 1].fontSize = 46;
-    this.vdBoxes[this.vdBoxes.length - 1].fontFamily = 1;
+    this.vdBoxes[this.vdBoxes.length - 1].fontSize = this.vdBoxes[this.vdBoxes.length - 2].fontSize;
+    this.vdBoxes[this.vdBoxes.length - 1].fontFamily = this.vdBoxes[this.vdBoxes.length - 2].fontFamily;
     this.vdBoxes[this.vdBoxes.length - 1].text = '';
   },
 
