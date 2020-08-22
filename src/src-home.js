@@ -109,7 +109,7 @@ new Vue({
         let ext = file.name.slice(-4);
 
         var readerForFrontend = new FileReader();
-        readerForFrontend.onload = function() {
+        readerForFrontend.onload = () => {
           // const file = evtReaderForFrontend.target.result; // THE FILE 🤖
 
           // If it's an image.
