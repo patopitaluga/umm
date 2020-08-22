@@ -30,6 +30,42 @@ form {
   padding: 0 15px;
 }
 
+header {
+  background: #edc13a;
+  color: #4c0306;
+  height: 45px;
+}
+
+header .webapp-cont {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  height: 45px;
+  justify-content: space-between;
+  text-align: left;
+  padding: 0 25px;
+}
+
+header button {
+  background-color: #4c0306;
+  background-image: url('/umm/file-upload.svg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 15px auto;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  height: 36px;
+  margin: auto 0 auto auto;
+  width: 36px;
+}
+
+header button:active,
+header button:focus {
+  border: 0;
+  outline: none;
+}
+
 input[type='text'],
 input[type='number'],
 input[type='password'],
@@ -43,13 +79,15 @@ select {
 }
 
 h1 {
-  font-size: 28px;
-  margin: 10px 0 0;
+  font-size: 20px;
+  font-weight: 500;
+  margin: auto auto auto 0;
   padding: 0;
 }
 
 h2 {
   font-size: 20px;
+  font-weight: 500;
   margin: 10px 0 0;
   padding: 0;
 }

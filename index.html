@@ -45,8 +45,15 @@
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
-    font-display: swap;
+    font-display: block;
     src: local('Roboto'), local('Roboto-Regular'), url('https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu4mxK.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-display: block;
+    src: local('Roboto Medium'), local('Roboto-Medium'), url('https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmEU9fBBc4.woff2') format('woff2');
   }
 
   [v-cloak] {
@@ -77,11 +84,30 @@
       Drop file to edit as meme.
     </div>
 
+    <header v-if="!vdEditingMeme">
+      <div class="webapp-cont">
+        <h1>Ultimate Meme Manager</h1>
+
+        <div style="width: 0; height: 0; overflow: hidden;">
+          <input
+            ref="inputfile"
+            type="file"
+            accept="image/png,image/jpeg"
+            @change="mtdInitUploadFile"
+          />
+        </div>
+        <button
+          title="Upload your own image"
+          @click="mtdTriggerFileUpload"
+        ></button>
+      </div>
+    </header>
+
     <div
       v-if="!vdEditingMeme"
       class="webapp-cont"
+      v-cloak
     >
-      <h1>Ultimate Meme Manager</h1>
       <search
         :vp-meme-list="vdMemeList"
         @addtofrequent="addToFrequent"
@@ -115,17 +141,23 @@
 
     <div
       v-if="vdEditingMeme"
-      class="webapp-cont"
+      v-cloak
     >
-      <a
-        href="./"
-        style="display: block;margin-top: 10px;"
-      >Back</a>
-      <h1>Ultimate Meme Manager</h1>
-      <memeeditor
-        :vp-meme="vdMemeToEdit"
-      >
-      </memeeditor>
+      <header>
+        <div class="webapp-cont">
+          <h1>Ultimate Meme Manager</h1>
+
+          <a
+            href="./"
+            style="display: block;margin: auto 0 auto auto;font-weight: 500;text-decoration: none;"
+          >&lt; Back</a>
+        </div>
+      </header>
+
+      <div class="webapp-cont">
+        <memeeditor :vp-meme="vdMemeToEdit">
+        </memeeditor>
+      </div>
     </div>
   </div>
 </div>
