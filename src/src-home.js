@@ -100,7 +100,6 @@ new Vue({
      */
     mtdFileDropped: function (e) {
       this.vdDraggingFile = false;
-      const vueInstanceData = this._data;
       let droppedFiles = e.dataTransfer.files;
       if (!droppedFiles) return;
 
@@ -124,14 +123,10 @@ new Vue({
             ext === '.png' ||
             ext === 'webp'
           ) {
-            helpers.processImageFile(file,
-              function(_imageAsDataUrl) {
-                vueInstanceData.vdEditingMeme = true;
-                vueInstanceData.vdMemeToEdit = {
-                  img: _imageAsDataUrl,
-                };
-              }
-            );
+            helpers.processImageFile(file, (_imageAsDataUrl) => {
+              this.vdEditingMeme = true;
+              this.vdMemeToEdit.img = _imageAsDataUrl;
+            });
             return;
           }
           emitMessage({
@@ -152,6 +147,45 @@ new Vue({
      */
     mtdSearchResults: function(_anyMatch) {
       this.vdTheresMatch = _anyMatch;
+    },
+
+    /**
+     * Triggered when the user clicks on the upload button.
+     */
+    mtdTriggerFileUpload: function() {
+      this.$refs.inputfile.click();
+    },
+
+    /**
+     * Triggered when the hidden file input @change.
+     *
+     * @param {object} _evt - the event set by the @change action.
+     */
+    mtdInitUploadFile: function(_evt) {
+      var files = _evt.target.files || _evt.dataTransfer.files;
+      if (!files.length) return;
+      const file = files[0];
+
+      let ext = file.name.slice(-4);
+      if (ext === 'jpeg') ext = '.jpg';
+      if (
+        ext === '.jpg' ||
+        ext === '.gif' ||
+        ext === '.png' ||
+        ext === 'webp'
+      ) {
+        helpers.processImageFile(file, (_imageAsDataUrl) => {
+          this.vdEditingMeme = true;
+          this.vdMemeToEdit.img = _imageAsDataUrl;
+        });
+        return;
+      }
+      emitMessage({
+        type: 5,
+        isMine: true,
+        file: file.name,
+      }, true);
+      mtdUploadFile(file);
     },
   },
 });
