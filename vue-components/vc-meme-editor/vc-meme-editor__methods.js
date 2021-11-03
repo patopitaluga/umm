@@ -1,5 +1,7 @@
 const utils = require('./vc-meme-editor__utils');
 
+const BOXHEIGHTLIMIT = 30;
+
 /**
  * TODO.
  *
@@ -30,7 +32,8 @@ function textHeight(text, maxWidth, _theFontSize) {
 
 module.exports = {
   /**
-   * Updates the content of the canvas. Since the draw function is not a loop it's triggered on dragging, writing and other user interactions.
+   * Updates the content of the canvas. Since the draw function is not a loop it's triggered
+   * on dragging, writing and other user interactions.
    *
    * @param {object} evt -
    * @param {boolean} isMouse -
@@ -143,7 +146,7 @@ module.exports = {
 
       // if (newLeft + newWidth > imgWidth) newWidth = imgWidth - newLeft;
       if (newTop <= 0) { newTop = 0; newHeight = this.vdBoxes[this.vdMightResize].height; }
-      if (newHeight < 60) newHeight = 60;
+      if (newHeight < BOXHEIGHTLIMIT) newHeight = BOXHEIGHTLIMIT;
       if (newWidth < 80) newWidth = 80;
 
       if (newHeight !== this.vdBoxes[this.vdMightResize].height)
